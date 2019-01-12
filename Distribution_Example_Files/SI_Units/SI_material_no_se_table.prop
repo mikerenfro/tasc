@@ -1,0 +1,6 @@
+%---Material Properties----%
+*material
+*E 74.460e3
+*Sys 351.6
+*n 8.5
+*end_material

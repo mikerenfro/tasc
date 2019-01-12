@@ -1,0 +1,39 @@
+%-----Interpolation Analysis Input File-----%
+%words proceeded with * are keywords for the
+%text scanning program
+%---Set Units----% (options are SI or US)
+*units SI
+%---Geometry Values----%
+*2c 12.70
+*a  6.17
+*W  88.82
+*B  9.5
+%
+%---Material Properties----%
+*material
+*E 74.460e3
+*stress pl_strain
+317.02,0
+361.08,0.00055
+375.35,0.00105
+385.97,0.00203
+391.83,0.00309
+396.17,0.00422
+399.55,0.0052
+402.86,0.00618
+405.07,0.00703
+408.51,0.00813
+411.41,0.00928
+414.31,0.01022
+437.40,0.02013
+454.36,0.03003
+464.84,0.04042
+469.81,0.05014
+472.22,0.05743
+*end_material
+%
+%
+%---Pre-test Predicion Values----%
+*pretest
+*Jc 21.0
+*phi_crit 17

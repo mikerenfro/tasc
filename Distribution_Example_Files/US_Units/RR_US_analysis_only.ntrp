@@ -1,0 +1,17 @@
+%-----Interpolation Analysis Input File-----%
+%words proceeded with * are keywords for the
+%text scanning program
+%---Set Units----% (options are SI or US)
+*units US
+%---Geometry Values----%
+*2c 0.508
+*a 0.248
+*W 3.497
+*B 0.374
+%
+%---Material Properties----%
+*material
+*E 10.8e3
+*Sys 51.0
+*n 8.5
+*end_material

@@ -18,19 +18,19 @@ E_Sys_pick = E_pick/Sys_pick;
 W_pick = interp.W;
 B_pick = interp.B;
 %perform interpolation
-    if interp.solution_mthd == 1
-    [Tmp,Tmp2,Tmp3,Tmp4,Final] =...
-    interp_solution_SCGui_CMOD_log_int(input,res,aB_pick,ac_pick,n_pick,E_Sys_pick);
+if interp.solution_mthd == 1
+    [~,~,~,~,Final] =...
+        interp_solution_SCGui_CMOD_log_int(input,res,aB_pick,ac_pick,n_pick,E_Sys_pick);
     %interpolate_solution_SCGui_CMOD(input,res,aB_pick,ac_pick,n_pick,E_Sys_pick);
-    else
-    [Tmp,Tmp2,Tmp3,Tmp4,Final] =...
-    interpolate_solution_SCGui(input,res,aB_pick,ac_pick,n_pick,E_Sys_pick);
-    end
+else
+    [~,~,~,~,Final] =...
+        interpolate_solution_SCGui(input,res,aB_pick,ac_pick,n_pick,E_Sys_pick);
+end
 % [Tmp,Tmp2,Tmp3,Tmp4,Final] =...
 %     interpolate_solution_SCGui_CMOD(input,res,aB_pick,ac_pick,n_pick,E_Sys_pick);
 %calculate load values from net stress incremental values
 Afar_interp = W_pick*B_pick;
-Anet_interp = Afar_interp - 3.141592*interp.a*(interp.two_c/2)/2;
+% Anet_interp = Afar_interp - 3.141592*interp.a*(interp.two_c/2)/2;
 %scale values to match test specimen size
 interp_CMOD = Final.int_CMOD*B_pick;
 %%%%------------------------------------------------------------------
@@ -46,9 +46,9 @@ interp_CMOD = Final.int_CMOD*B_pick;
 %code to base force and stress values off of interpolated far stress
 interp_force = Final.far_stress_inc.*Sys_pick.*Afar_interp;%based on far stress
 interp_far_stress = Final.far_stress_inc*Sys_pick;
-interp_net_stress = interp_far_stress*(Afar_interp/Anet_interp);
+% interp_net_stress = interp_far_stress*(Afar_interp/Anet_interp);
 %%%%------------------------------------------------------------------
-interp_A_ratio = Anet_interp/Afar_interp;
+% interp_A_ratio = Anet_interp/Afar_interp;
 %interp_force = Final.far_stress_inc.*Sys_pick.*Afar_interp*(interp_A_ratio/Final.A_ratio);%based on far stress*Area ratio
 interp_Jtotal = Final.int_Jtotal.*Sys_pick.*B_pick;
 interp_Jel = Final.int_Jel.*Sys_pick.*B_pick;
@@ -102,19 +102,21 @@ fea.weld_se_fea = [];
 %add flag to show that solution is interpolated solution
 fea.interp_exists = 1;
 %----------------------------------------------
-%if extrapolation is requested perfom additional interpolations to 
+%if extrapolation is requested perfom additional interpolations to
 %extrapolate solution to desired CMOD
 if interp.extrap_flag == 1
     extrap_cmod_val = fea.CMOD(end)*interp.extrap_factor;
     fea.extrap_cmod_val = extrap_cmod_val;
     fea.num_steps = fea.num_steps+1;
+    extrap_j = zeros(size(fea.Phi));
+    extrap_jel = zeros(size(fea.Phi));
     for i = 1:length(fea.Phi)
         X = fea.CMOD;
         Xi = extrap_cmod_val;
         Y = fea.Jtotal_Avg(i,:);
         Y2 = fea.Jel_EPFM(i,:);
-    extrap_j(i)= interp1(X,Y,Xi,'linear','extrap' );
-    extrap_jel(i)= interp1(X,Y2,Xi,'linear','extrap' );
+        extrap_j(i)= interp1(X,Y,Xi,'linear','extrap' );
+        extrap_jel(i)= interp1(X,Y2,Xi,'linear','extrap' );
     end
     extrap_j = extrap_j';
     extrap_jel = extrap_jel';
@@ -125,13 +127,13 @@ if interp.extrap_flag == 1
     Y4 = fea.reac_force;
     %perform F = a*x^b + c power law fit to force CMOD data
     %use last 5 points for fit
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-     xdata = X(end-4:end)';
-     ydata = Y4(end-4:end)';    
-%%%%%%%%%%%%%%%%%%%%%
-    %code below uses Curve Fiting toolbox 
-     pl_fit = fit(xdata, ydata,'power2');
-     extrap_reac_force = pl_fit(Xi);
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    xdata = X(end-4:end)';
+    ydata = Y4(end-4:end)';
+    %%%%%%%%%%%%%%%%%%%%%
+    %code below uses Curve Fiting toolbox
+    pl_fit = fit(xdata, ydata,'power2');
+    extrap_reac_force = pl_fit(Xi);
     %calculate area (mult_factor) to convert force to stress so only have
     %to do perform one curve fit
     mult_factor = Y3(1)/Y4(1);

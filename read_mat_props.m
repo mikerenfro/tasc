@@ -21,16 +21,16 @@ Text = ts{1};
 % haz_index = strmatch('haz', Text);
 % weld_index = strmatch('weld', Text);
 % end_index = strmatch('end', Text);
-base_index = strncmp('base', Text, 4);
-haz_index = strncmp('haz', Text, 3);
-weld_index = strncmp('weld', Text, 4);
-end_index = strncmp('end', Text, 3);
+base_index = find(strncmp('base', Text, 4)==1, 1);
+haz_index = find(strncmp('haz', Text, 3)==1, 1);
+weld_index = find(strncmp('weld', Text, 4)==1, 1);
+end_index = find(strncmp('end', Text, 3)==1, 1);
 fea_props.base_index = base_index;
 fea_props.haz_index = haz_index;
 % Sys_index = strmatch('sys', Text);
 % Sult_index = strmatch('sult', Text);
-Sys_index = strncmp('sys', Text, 3);
-Sult_index = strncmp('sult', Text, 4);
+Sys_index = find(strncmp('sys', Text, 3)==1, 1);
+Sult_index = find(strncmp('sult', Text, 4)==1, 1);
 %read base metal properties
 if ~isempty(base_index)
     fea_props.base_E = sscanf(Text{base_index+1},'%f');

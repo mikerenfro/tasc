@@ -69,7 +69,7 @@ if ~isempty(tear_force)
         legend_type = 2;
         trunc_force = force(1:ind);
         trunc_CMOD  = CMOD(1:ind);
-        tear_CMOD = interp1(trunc_force(I-10:end),trunc_CMOD(I-10:end),tear_force,'cubic');
+        tear_CMOD = interp1(trunc_force(I-10:end),trunc_CMOD(I-10:end),tear_force,'pchip');
         
         plot(tear_CMOD, tear_force*fsf,'sk', 'MarkerFaceColor','m','MarkerSize', 8);
         %create and plot error bands

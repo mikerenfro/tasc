@@ -148,33 +148,11 @@ for i = 1:4
             'Color', color_it{j},'LineWidth', 1);
     end
 end
-%
-%    for i = 1:4
-%      for j = 1:4
-%  plot(Tmp(i,j).CMOD, Tmp(i,j).net_stress, 'LineStyle', ':',...
-%      'LineWidth', 0.1 ,'Marker', markers{5},...
-%          'Color', 'c');
-%      end
-%    end
-%  legend_txt{18} = 'Orig. FEA Solutions';
-xaxis_label = 'CMOD_{n}';
-yaxis_label = '\sigma_{n}';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
-legend1 = legend(legend_txt, 'Location', 'EastOutside',...
-    'FontName', plotspec.x_FontName);
-set(legend1,...
-    'Position',[0.61 0.58 0.25 0.34]);
-% title('Net Section Stress vs. CMOD');
-% hold off
-%--------------------------------------------------------------
-%--------------------------------------------------------------
-% Jtotal_CMOD_16_fig = figure( 'Name','Jtotal_vs_CMOD',...
-%                          'NumberTitle','off','color', 'w');
+
+format_sigma_CMOD_subplot(plotspec, legend_txt)
+
 subplot1 = subplot(2,2,3,'Parent',Compare_16_fig);
 hold(subplot1,'all');
-%subplot(2,2,3)
-%hold on
 plot(Final.int_CMOD, Final.int_Jtotal(end,:),...
     '-kp','LineWidth',1,...
     'MarkerEdgeColor','k',...
@@ -200,40 +178,11 @@ for i = 1:4
     end
 end
 
-%
-%    for i = 1:4
-%      for j = 1:4
-%  plot(Tmp(i,j).CMOD, Tmp(i,j).Jtotal_Avg(end,:), 'LineStyle', ':',...
-%      'LineWidth', 0.1 ,'Marker', markers{5},...
-%          'Color', 'c');
-%      end
-%    end
-%  legend_txt{18} = 'Orig. FEA Solutions';
-% %**********************************************************
-%   for i = 1:4
-%      for j = 1:4
-%  plot(Tmp(i,j).net_stress, Tmp(i,j).Jtotal_Avg(end,:), '-rx')
-%  plot(Final.net_stress_inc, Tmp(i,j).int_Jtotal(end,:), '-bs')
-%      end
-%   end
-%  %**********************************************************
-%ylim([0, 20])
-xaxis_label = 'CMOD_{n}';
-yaxis_label = 'J_{n}(\phi=90)x10^{3}';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
-% legend(legend_txt, 'Location', 'EastOutside');
-% title('J_{total} vs. CMOD at phi = 90 deg');
-% hold off
+format_J_CMOD_subplot(plotspec);
 
-%--------------------------------------------------------------
-%  Jtotal_phi_16_fig = figure( 'Name','Jtotal_vs_phi',...
-%                           'NumberTitle','off','color', 'w');
 subplot2 = subplot(2,2,4,'Parent',Compare_16_fig);
 hold(subplot2,'all');
 set(gca,'XTickLabel',plotspec.XTickLabel,'XTick',plotspec.XTick);
-% subplot(2,2,4)
-% hold on
 plot(Final.interp_phi, Final.int_Jtotal(:,end),...
     '-kp','LineWidth',1,...
     'MarkerEdgeColor','k',...
@@ -257,23 +206,9 @@ for i = 1:4
             'Color', color_it{j},'LineWidth', 1);
     end
 end
-%
-% %**********************************************************
-%   for i = 1:4
-%      for j = 1:4
-%  %plot(Tmp(i,j).Phi, Tmp(i,j).Jtotal_Avg(:,end), '-rx')
-%  plot(Final.interp_phi, Tmp(i,j).int_Jtotal(:,end), '-bs')
-%      end
-%   end
-%  %**********************************************************
-%ylim([0, 20])
-xlim([0, 90])
-xaxis_label = '\phi (deg)';
-yaxis_label = 'J_{n}x10^{3} for Last Load Step';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
-% legend(legend_txt2, 'Location', 'EastOutside');
-% title('J_{total} vs. Phi at last load step');
+
+format_J_phi_subplot(plotspec);
+
 hold off
 if save_images
     print_file = [output_dir filesep figname];
@@ -338,16 +273,8 @@ for i = 1:4
     end
 end
 
-xaxis_label = 'CMOD_{n}';
-yaxis_label = '\sigma_{n}';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
-legend1 = legend(legend_txt, 'Location', 'EastOutside',...
-    'FontName', plotspec.x_FontName);
-set(legend1,...
-    'Position',[0.61 0.58 0.25 0.34]);
-%--------------------------------------------------------------
-%--------------------------------------------------------------
+format_sigma_CMOD_subplot(plotspec, legend_txt)
+
 subplot1 = subplot(2,2,3,'Parent',Compare_8_fig);
 hold(subplot1,'all');
 plot(Final.int_CMOD, Final.int_Jtotal(end,:),...
@@ -375,14 +302,8 @@ for i = 1:4
     end
 end
 
-%  %**********************************************************
-%ylim([0, 20])
-xaxis_label = 'CMOD_{n}';
-yaxis_label = 'J_{n}(\phi=90)x10^{3}';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
+format_J_CMOD_subplot(plotspec);
 
-%--------------------------------------------------------------
 subplot2 = subplot(2,2,4,'Parent',Compare_8_fig);
 hold(subplot2,'all');
 set(gca,'XTickLabel',plotspec.XTickLabel,'XTick',plotspec.XTick);
@@ -414,11 +335,7 @@ end
 
 %  %**********************************************************
 %ylim([0, 20])
-xlim([0, 90])
-xaxis_label = '\phi (deg)';
-yaxis_label = 'J_{n}x10^{3} for Last Load Step';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
+format_J_phi_subplot(plotspec);
 % legend(legend_txt2, 'Location', 'EastOutside');
 % title('J_{total} vs. Phi at last load step');
 hold off
@@ -486,16 +403,8 @@ for i = 1:4
     end
 end
 
-xaxis_label = 'CMOD_{n}';
-yaxis_label = '\sigma_{n}';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
-legend1 = legend(legend_txt, 'Location', 'EastOutside',...
-    'FontName', plotspec.x_FontName);
-set(legend1,...
-    'Position',[0.61 0.58 0.25 0.34]);
-%--------------------------------------------------------------
-%--------------------------------------------------------------
+format_sigma_CMOD_subplot(plotspec, legend_txt)
+
 subplot1 = subplot(2,2,3,'Parent',Compare_4_fig);
 hold(subplot1,'all');
 plot(Final.int_CMOD, Final.int_Jtotal(end,:),...
@@ -523,14 +432,8 @@ for i = 1:4
     end
 end
 
-%  %**********************************************************
-%ylim([0, 20])
-xaxis_label = 'CMOD_{n}';
-yaxis_label = 'J_{n}(\phi=90)x10^{3}';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
+format_J_CMOD_subplot(plotspec);
 
-%--------------------------------------------------------------
 subplot2 = subplot(2,2,4,'Parent',Compare_4_fig);
 hold(subplot2,'all');
 set(gca,'XTickLabel',plotspec.XTickLabel,'XTick',plotspec.XTick);
@@ -562,11 +465,7 @@ end
 
 %  %**********************************************************
 %ylim([0, 20])
-xlim([0, 90])
-xaxis_label = '\phi (deg)';
-yaxis_label = 'J_{n}x10^{3} for Last Load Step';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
+format_J_phi_subplot(plotspec);
 % legend(legend_txt2, 'Location', 'EastOutside');
 % title('J_{total} vs. Phi at last load step');
 hold off
@@ -633,17 +532,8 @@ for i = 1:2
             'Color', color_it{j},'LineWidth', 1);
     end
 end
-%ylim([0, 1.4]);
-xaxis_label = 'CMOD_{n}';
-yaxis_label = '\sigma_{n}';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
-legend1 = legend(legend_txt, 'Location', 'EastOutside',...
-    'FontName', plotspec.x_FontName);
-set(legend1,...
-    'Position',[0.61 0.58 0.25 0.34]);
-%--------------------------------------------------------------
-%--------------------------------------------------------------
+format_sigma_CMOD_subplot(plotspec, legend_txt)
+
 subplot1 = subplot(2,2,3,'Parent',Compare_2_fig);
 hold(subplot1,'all');
 plot(Final.int_CMOD, Final.int_Jtotal(end,:),...
@@ -670,20 +560,10 @@ for i = 1:2
             'Color', color_it{j},'LineWidth', 1);
     end
 end
+format_J_CMOD_subplot(plotspec);
 
-%  %**********************************************************
-%ylim([0, 20])
-xaxis_label = 'CMOD_{n}';
-yaxis_label = 'J_{n}(\phi=90)x10^{3}';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
-
-%--------------------------------------------------------------
 subplot2 = subplot(2,2,4,'Parent',Compare_2_fig);
 hold(subplot2,'all');
-set(gca,'XTickLabel',plotspec.XTickLabel,'XTick',plotspec.XTick);
-% subplot(2,2,4)
-% hold on
 plot(Final.interp_phi, Final.int_Jtotal(:,end),...
     '-kp','LineWidth',1,...
     'MarkerEdgeColor','k',...
@@ -707,17 +587,9 @@ for i = 1:2
             'Color', color_it{j},'LineWidth', 1);
     end
 end
-
-%  %**********************************************************
-%ylim([0, 20])
-xlim([0, 90])
-xaxis_label = '\phi (deg)';
-yaxis_label = 'J_{n}x10^{3} for Last Load Step';
-xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
-ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
-% legend(legend_txt2, 'Location', 'EastOutside');
-% title('J_{total} vs. Phi at last load step');
+format_J_phi_subplot(plotspec);
 hold off
+
 if save_images
     print_file = [output_dir filesep figname];
     print_figure(print_file, figure_save_type);
@@ -729,6 +601,33 @@ function set_figure_paper(fig)
 set(fig, 'PaperUnits','inches', 'PaperSize', [8.5 11],...
     'PaperOrientation', 'portrait',...
     'PaperPosition',[.25 .25 8.0 10] );
+end
+
+function format_sigma_CMOD_subplot(plotspec, legend_txt)
+xaxis_label = 'CMOD_{n}';
+yaxis_label = '\sigma_{n}';
+xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
+ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
+legend1 = legend(legend_txt, 'Location', 'EastOutside',...
+    'FontName', plotspec.x_FontName);
+set(legend1,...
+    'Position',[0.61 0.58 0.25 0.34]);
+end
+
+function format_J_CMOD_subplot(plotspec)
+xaxis_label = 'CMOD_{n}';
+yaxis_label = 'J_{n}(\phi=90)x10^{3}';
+xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
+ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
+end
+
+function format_J_phi_subplot(plotspec)
+set(gca,'XTickLabel',plotspec.XTickLabel,'XTick',plotspec.XTick);
+xlim([0, 90])
+xaxis_label = '\phi (deg)';
+yaxis_label = 'J_{n}x10^{3} for Last Load Step';
+xlabel(xaxis_label,'FontName', plotspec.x_FontName, 'FontWeight', plotspec.x_FontWeight);
+ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_FontWeight);
 end
 
 function print_figure(print_file, figure_save_type)

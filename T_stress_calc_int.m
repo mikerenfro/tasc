@@ -253,8 +253,3 @@ if a_over_c <= 1.1 && a_over_c > 1.0
     a_over_c = 1.0;
 end
 norm_T_stress = interp3(x,y,z,mat3d,a_over_B,phi,a_over_c,'spline');
-
-
-
-
-

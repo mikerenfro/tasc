@@ -327,7 +327,7 @@ if(elt_status == 2)
    choice = questdlg('Interpolation file exists. Overwrite files?','File overwrite?', ...
        'yes', 'no','yes');
 end
-if strmatch(choice, 'yes')
+if strcmp(choice, 'yes')
 %--------------------------------------------------------------
 %save interpolated results in mat file
 %only save result variable to save file space (gets rid of interpolation
@@ -422,10 +422,10 @@ if ~isempty(handles.fea_props.base_index) && ~isempty(handles.fea_props.se_index
     %perform linear polyfit in log space to estimate n
     for i = 1:size(handles.fea_props.base_se,1)
         total_e(i) = handles.fea_props.base_se(i,1)/handles.fea_props.base_E+...
-            handles.fea_props.base_se(i,2);
+            handles.fea_props.base_se(i,2); %#ok<AGROW>
     end
     total_e = total_e';
-    [dat_vals, fit_vals] = polyfit(log10(total_e), log10(handles.fea_props.base_se(:,1)),1); 
+    [dat_vals, ~] = polyfit(log10(total_e), log10(handles.fea_props.base_se(:,1)),1); 
     n = 1/dat_vals(1);
     if n > 20
         n = 20;
@@ -892,8 +892,6 @@ set(handles.txt_ready, 'Enable', 'Off');
 %tell code to update gui to show working light
 drawnow();
 
-nval = str2double(get(handles.et_i_Sys, 'String'));
-
 %update E/Sys
 E = str2double(get(handles.et_i_E, 'String'));
 Sys = str2double(get(handles.et_i_Sys, 'String'));
@@ -968,8 +966,6 @@ set(handles.txt_working, 'Enable', 'On');
 set(handles.txt_ready, 'Enable', 'Off');
 %tell code to update gui to show working light
 drawnow();
-
-nval = str2double(get(handles.et_i_n, 'String'));
 
 %update plots
 axes(handles.ax_i_se_plot);
@@ -1280,12 +1276,12 @@ if handles.interp.extrap_factor < 1
     set(handles.et_i_extrap_cmod, 'value', 1.01);
     set(handles.et_i_extrap_cmod, 'String', '1.01');
     handles.interp.extrap_factor = 1.01;
-    er_box = errordlg('Extrapolation is only allowed for 1.0 < factor <= 2.0');
+    errordlg('Extrapolation is only allowed for 1.0 < factor <= 2.0');
 elseif handles.interp.extrap_factor > 2.0
     set(handles.et_i_extrap_cmod, 'value', 2.0);
     set(handles.et_i_extrap_cmod, 'String', '2.0');
     handles.interp.extrap_factor = 2.0;
-    er_box = errordlg('Extrapolation is only allowed for 1.0 <= factor <= 2.0');
+    errordlg('Extrapolation is only allowed for 1.0 <= factor <= 2.0');
 end
     %call function to run interpolation and return results in same format
     %as FEA results format
@@ -2128,10 +2124,10 @@ if ~isempty(handles.fea_props.base_index) && ~isempty(handles.fea_props.se_index
     %perform linear polyfit in log space to estimate n
     for i = 1:size(handles.fea_props.base_se,1)
         total_e(i) = handles.fea_props.base_se(i,1)/handles.fea_props.base_E+...
-            handles.fea_props.base_se(i,2);
+            handles.fea_props.base_se(i,2); %#ok<AGROW>
     end
     total_e = total_e';
-    [dat_vals, fit_vals] = polyfit(log10(total_e), log10(handles.fea_props.base_se(:,1)),1); 
+    [dat_vals, ~] = polyfit(log10(total_e), log10(handles.fea_props.base_se(:,1)),1); 
     n = 1/dat_vals(1);
     if n > 20
         n = 20;

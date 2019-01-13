@@ -27,11 +27,11 @@ function varargout = tasc(varargin)
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
-                   'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @tasc_OpeningFcn, ...
-                   'gui_OutputFcn',  @tasc_OutputFcn, ...
-                   'gui_LayoutFcn',  [] , ...
-                   'gui_Callback',   []);
+    'gui_Singleton',  gui_Singleton, ...
+    'gui_OpeningFcn', @tasc_OpeningFcn, ...
+    'gui_OutputFcn',  @tasc_OutputFcn, ...
+    'gui_LayoutFcn',  [] , ...
+    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
@@ -64,7 +64,7 @@ handles.output = hObject;
 %dialogue window is bypassed.
 lic_status = exist('TASC_lic.txt','file');
 if lic_status ~= 2
-%
+    %
     lic_quest = questdlg(['I have read and accept the terms of the NASA Open'...
         'Source Agreement included in the TASC distribution package'], ...
         'NASA Open Source Agreement', ...
@@ -148,38 +148,38 @@ handles.save_path = [];
 %set default figure save type based on PC or MAC platform and update plot
 %save type munu accordingly
 if ispc
-handles.figure_save_type = 'Metafiles';
-set(handles.menu_emf, 'Checked', 'On');
-set(handles.menu_jpeg, 'Checked', 'Off');
-set(handles.menu_tiff, 'Checked', 'Off');
+    handles.figure_save_type = 'Metafiles';
+    set(handles.menu_emf, 'Checked', 'On');
+    set(handles.menu_jpeg, 'Checked', 'Off');
+    set(handles.menu_tiff, 'Checked', 'Off');
 else
-handles.figure_save_type = 'TIFFs';
-set(handles.menu_emf, 'Checked', 'Off');
-set(handles.menu_emf, 'Enable', 'Off');
-set(handles.menu_jpeg, 'Checked', 'Off');
-set(handles.menu_tiff, 'Checked', 'On');
+    handles.figure_save_type = 'TIFFs';
+    set(handles.menu_emf, 'Checked', 'Off');
+    set(handles.menu_emf, 'Enable', 'Off');
+    set(handles.menu_jpeg, 'Checked', 'Off');
+    set(handles.menu_tiff, 'Checked', 'On');
 end
 %set the plot selection tool to off until final solution is computed
 %set(handles.pop_plot_select, 'enable', 'off');
-  % %get correct path to solution database
-    %%
-    handles.interp.interp_data_path = fileparts(which('tasc'));
-    handles.interp.interpDataName = [filesep 'interp_solution_database.mat']; %generic path
-    
-    %handles.interp.interpDataName = '\interp_solution_database.mat'; %path
-    %for windows computers
-    %handles.interp.interpDataName = '/interp_solution_database.mat';% path
-    %for MAC
-    
-    handles.interp.interpFullFileName = strcat(handles.interp.interp_data_path,...
-        handles.interp.interpDataName);
-    handles.interp.interp_data = load(handles.interp.interpFullFileName);
+% %get correct path to solution database
+%%
+handles.interp.interp_data_path = fileparts(which('tasc'));
+handles.interp.interpDataName = [filesep 'interp_solution_database.mat']; %generic path
+
+%handles.interp.interpDataName = '\interp_solution_database.mat'; %path
+%for windows computers
+%handles.interp.interpDataName = '/interp_solution_database.mat';% path
+%for MAC
+
+handles.interp.interpFullFileName = strcat(handles.interp.interp_data_path,...
+    handles.interp.interpDataName);
+handles.interp.interp_data = load(handles.interp.interpFullFileName);
 
 %set default file name
 % str_name = strcat(handles.in.sp_code, '_interp');
 % set(handles.et_i_soln_name, 'string',str_name );
 %set se plot defaults
- set(handles.cb_i_props_data, 'Value', 1);
+set(handles.cb_i_props_data, 'Value', 1);
 % set(handles.cb_i_props_data, 'Enable', 'Off');
 %set extrapolation options
 set(handles.et_i_extrap_cmod, 'String', '');
@@ -193,7 +193,7 @@ set(handles.txt_working, 'Enable', 'Off');
 %handles.fea_props = handles.props.fea_props;
 
 if isempty(handles.fea_props.base_index) || (handles.fea_props.length_base_table == 0)
-%if needed set zero value for s-e table data initially for logic check in plotting
+    %if needed set zero value for s-e table data initially for logic check in plotting
     handles.fea_props.base_se(1,1) = 0;
 end
 
@@ -207,7 +207,7 @@ if handles.interp.ErrorFound == 0
     [handles]= get_interp_values_int(handles);
     %get_interp_values_int(handles);
     plt_lppl_int(handles);
-
+    
     % %-----------------------------------------------------------------
     % %-----------------------------------------------------------------
     %perform initial estimates of load-CMOD response
@@ -218,22 +218,22 @@ if handles.interp.ErrorFound == 0
     %tell code to update gui to show working light
     drawnow();
     [handles]= get_interp_values_int(handles);
-  
+    
     %%
     %perform calcs and make plot
     %create P-CMOD plot
     if handles.interp.ErrorFound == 0
         axes(handles.ax_i_cmod_plot);
-          %%%%%%%%%%%%%%
-          %call function to run interpolation and return results in same format
-          %as FEA results format
-          handles.result.fea = [];
-          [handles.result.fea]= interp_solution_fea_int(handles.interp);
-          %perform EPFM calculation
-          [handles]= EPFM_calcs_standalone(handles);
-          %create proper plot
-          plot_controller(handles)
-          %%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%
+        %call function to run interpolation and return results in same format
+        %as FEA results format
+        handles.result.fea = [];
+        [handles.result.fea]= interp_solution_fea_int(handles.interp);
+        %perform EPFM calculation
+        [handles]= EPFM_calcs_standalone(handles);
+        %create proper plot
+        plot_controller(handles)
+        %%%%%%%%%%%%%%
     end
     %turn off working light
     set(handles.txt_working, 'Enable', 'Off');
@@ -269,7 +269,7 @@ function pb_i_solve_save_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 [handles]= get_interp_values_int(handles);
-%turn on plot selection tool 
+%turn on plot selection tool
 %set(handles.pop_plot_select, 'enable', 'on');
 %turn on working light
 set(handles.txt_working, 'Enable', 'On');
@@ -290,27 +290,27 @@ if handles.interp.cb_test_predict == 1
         plot_controller(handles)
     end
 else
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-%assignin('base', 'handles_w_interp', handles);
+    %perform EPFM calculation
+    [handles]= EPFM_calcs_standalone(handles);
+    %create proper plot
+    plot_controller(handles)
+    %assignin('base', 'handles_w_interp', handles);
 end
 %--------------------------------------------------------------
 %make Interp_Files folder to store Interpolated FE analysis files in
 current_path = cd;
 if isempty(handles.save_path)
-mkdir(current_path, 'Solution_Files');
-cd Solution_Files;
-FEA_path = cd;
+    mkdir(current_path, 'Solution_Files');
+    cd Solution_Files;
+    FEA_path = cd;
 else
-save_path = handles.save_path;
-mkdir(save_path, 'Solution_Files');
-gotodir = strcat(save_path, filesep, 'Solution_Files');
-%gotodir = strcat(save_path, '\', 'Solution_Files');
-cd(gotodir);
-%cd Solution_Files;
-FEA_path = cd;
+    save_path = handles.save_path;
+    mkdir(save_path, 'Solution_Files');
+    gotodir = strcat(save_path, filesep, 'Solution_Files');
+    %gotodir = strcat(save_path, '\', 'Solution_Files');
+    cd(gotodir);
+    %cd Solution_Files;
+    FEA_path = cd;
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %check to see if file exists
@@ -324,21 +324,21 @@ full_CheckName = strcat(FEA_path, filesep, CheckName);
 elt_status = exist(full_CheckName,'file');
 choice = 'yes';
 if(elt_status == 2)
-   choice = questdlg('Interpolation file exists. Overwrite files?','File overwrite?', ...
-       'yes', 'no','yes');
+    choice = questdlg('Interpolation file exists. Overwrite files?','File overwrite?', ...
+        'yes', 'no','yes');
 end
 if strcmp(choice, 'yes')
-%--------------------------------------------------------------
-%save interpolated results in mat file
-%only save result variable to save file space (gets rid of interpolation
-%solution space)
-save_result = handles.result; %#ok<NASGU>
-save (InterpFileName, 'save_result' );
-create_summary_table(handles.result, handles.interp)
-%save (InterpFileName);
-%create and save a *ntrp file that captures the analysis input values
-create_inputs_ntrp(handles.result, handles.interp, handles.testdata)
-
+    %--------------------------------------------------------------
+    %save interpolated results in mat file
+    %only save result variable to save file space (gets rid of interpolation
+    %solution space)
+    save_result = handles.result; %#ok<NASGU>
+    save (InterpFileName, 'save_result' );
+    create_summary_table(handles.result, handles.interp)
+    %save (InterpFileName);
+    %create and save a *ntrp file that captures the analysis input values
+    create_inputs_ntrp(handles.result, handles.interp, handles.testdata)
+    
 end
 cd(current_path);
 %save plots if check box is selected
@@ -415,7 +415,7 @@ end
 %if stress strain data exists in props file, try to estimate Sys and n
 %for LPPL model
 if ~isempty(handles.fea_props.base_index) && ~isempty(handles.fea_props.se_index)
-        %estimate Sys value by averaging first 3 points in table
+    %estimate Sys value by averaging first 3 points in table
     est_Sys = (handles.fea_props.base_se(3,1)+handles.fea_props.base_se(2,1)+...
         handles.fea_props.base_se(1,1))/3;
     set(handles.et_i_Sys, 'string', num2str(est_Sys, '%9.2f'));
@@ -425,7 +425,7 @@ if ~isempty(handles.fea_props.base_index) && ~isempty(handles.fea_props.se_index
             handles.fea_props.base_se(i,2); %#ok<AGROW>
     end
     total_e = total_e';
-    [dat_vals, ~] = polyfit(log10(total_e), log10(handles.fea_props.base_se(:,1)),1); 
+    [dat_vals, ~] = polyfit(log10(total_e), log10(handles.fea_props.base_se(:,1)),1);
     n = 1/dat_vals(1);
     if n > 20
         n = 20;
@@ -444,10 +444,10 @@ end
 %update plot
 [handles]= get_interp_values_int(handles);
 
-    set(handles.cb_i_props_data, 'Enable', 'On');
-    axes(handles.ax_i_se_plot);
-    plt_lppl_int(handles);
-    %----------------------------------
+set(handles.cb_i_props_data, 'Enable', 'On');
+axes(handles.ax_i_se_plot);
+plt_lppl_int(handles);
+%----------------------------------
 if handles.interp.ErrorFound == 0
     %turn on working light
     set(handles.txt_working, 'Enable', 'On');
@@ -462,19 +462,19 @@ if handles.interp.ErrorFound == 0
     handles.result.fea = [];
     [handles.result.fea]= interp_solution_fea_int(handles.interp);
     if handles.interp.cb_test_predict == 1
-    [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
-        %assignin('base', 'handles_w_interp', handles);
         %create proper plot
         plot_controller(handles)
-    end
-    else
-    %perform EPFM calculation
-    [handles]= EPFM_calcs_standalone(handles);
-    %create proper plot
-    plot_controller(handles)
     end
     %%%%%%%%%%%%%%
     %turn off working light
@@ -494,48 +494,48 @@ function et_i_2c_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-% %turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_se_plot);
-%get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
-plt_lppl_int(handles);
-
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-%%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-if handles.interp.cb_test_predict == 1
-    [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1
+    % %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
-        %assignin('base', 'handles_w_interp', handles);
         %create proper plot
         plot_controller(handles)
     end
-else
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
-% else
-%  set(handles.et_i_2c, 'BackgroundColor', [0.86  0.275  0.275]);
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    % else
+    %  set(handles.et_i_2c, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 
 guidata(hObject, handles);
@@ -564,48 +564,48 @@ function et_i_a_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %        str2double(get(hObject,'String')) returns contents of et_i_a as a double
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-%turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_se_plot);
-%get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
-plt_lppl_int(handles);
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-%%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-if handles.interp.cb_test_predict == 1
-    [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
-        %assignin('base', 'handles_w_interp', handles);
         %create proper plot
         plot_controller(handles)
     end
-else
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
-drawnow();
-% else
-%     set(handles.et_i_a, 'BackgroundColor', [0.86  0.275  0.275]);
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    drawnow();
+    % else
+    %     set(handles.et_i_a, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -633,48 +633,48 @@ function et_i_W_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %        str2double(get(hObject,'String')) returns contents of et_i_W as a double
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-%turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_se_plot);
-%get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
-plt_lppl_int(handles);
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-%%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-if handles.interp.cb_test_predict == 1
-    [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
-        %assignin('base', 'handles_w_interp', handles);
         %create proper plot
         plot_controller(handles)
     end
-else
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
-drawnow();
-% else
-%     set(handles.et_i_W, 'BackgroundColor', [0.86  0.275  0.275]);
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    drawnow();
+    % else
+    %     set(handles.et_i_W, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -702,49 +702,49 @@ function et_i_B_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %        str2double(get(hObject,'String')) returns contents of et_i_B as a double
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-%turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_se_plot);
-%get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
-plt_lppl_int(handles);
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-%%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-if handles.interp.cb_test_predict == 1
-    [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
         %create proper plot
         plot_controller(handles)
     end
-else
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%assignin('base', 'handles_w_interp', handles);
-%create proper plot
-plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
-drawnow();
-% else
-%     set(handles.et_i_B, 'BackgroundColor', [0.86  0.275  0.275]);
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    drawnow();
+    % else
+    %     set(handles.et_i_B, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -788,15 +788,15 @@ function menu_interp_details_Callback(hObject, eventdata, handles) %#ok<INUSL,DE
 %make Interp_Files folder to store Interpolated FE analysis files in
 current_path2 = cd;
 if isempty(handles.save_path)
-mkdir(current_path2, 'Interp_Detail_plots');
-cd Interp_Detail_plots;
+    mkdir(current_path2, 'Interp_Detail_plots');
+    cd Interp_Detail_plots;
 else
-save_path2 = handles.save_path;
-mkdir(save_path2, 'Interp_Detail_plots');
-warning off MATLAB:MKDIR:DirectoryExists
-gotodir2 = strcat(save_path2, filesep, 'Interp_Detail_plots');
-cd(gotodir2);
-%cd Solution_Files;
+    save_path2 = handles.save_path;
+    mkdir(save_path2, 'Interp_Detail_plots');
+    warning off MATLAB:MKDIR:DirectoryExists
+    gotodir2 = strcat(save_path2, filesep, 'Interp_Detail_plots');
+    cd(gotodir2);
+    %cd Solution_Files;
 end
 %
 plt_interp_details_CMOD_subplot_int(handles.interp);
@@ -813,52 +813,52 @@ function et_i_E_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %        str2double(get(hObject,'String')) returns contents of et_i_E as a double
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-%turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-E = str2double(get(handles.et_i_E, 'String'));
-Sys = str2double(get(handles.et_i_Sys, 'String'));
-EoverSys = E/Sys;
-rpl_string = ['E/Sys = ',num2str(EoverSys, '%7.2f')];
-set(handles.txt_i_EoverSys, 'string', rpl_string);
-%update plots
-axes(handles.ax_i_se_plot);
-%get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
-plt_lppl_int(handles);
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-%%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-if handles.interp.cb_test_predict == 1
-    [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    E = str2double(get(handles.et_i_E, 'String'));
+    Sys = str2double(get(handles.et_i_Sys, 'String'));
+    EoverSys = E/Sys;
+    rpl_string = ['E/Sys = ',num2str(EoverSys, '%7.2f')];
+    set(handles.txt_i_EoverSys, 'string', rpl_string);
+    %update plots
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
-        %assignin('base', 'handles_w_interp', handles);
         %create proper plot
         plot_controller(handles)
     end
-else
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-% else
-%     set(handles.et_i_E, 'BackgroundColor', [0.86  0.275  0.275]);
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    % else
+    %     set(handles.et_i_E, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -886,54 +886,54 @@ function et_i_Sys_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %        str2double(get(hObject,'String')) returns contents of et_i_Sys as a double
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-%turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-
-%update E/Sys
-E = str2double(get(handles.et_i_E, 'String'));
-Sys = str2double(get(handles.et_i_Sys, 'String'));
-EoverSys = E/Sys;
-rpl_string = ['E/Sys = ',num2str(EoverSys, '%7.2f')];
-set(handles.txt_i_EoverSys, 'string', rpl_string);
-%update plots
-axes(handles.ax_i_se_plot);
-%get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
-plt_lppl_int(handles);
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim; 
-%%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-if handles.interp.cb_test_predict == 1
-    [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    
+    %update E/Sys
+    E = str2double(get(handles.et_i_E, 'String'));
+    Sys = str2double(get(handles.et_i_Sys, 'String'));
+    EoverSys = E/Sys;
+    rpl_string = ['E/Sys = ',num2str(EoverSys, '%7.2f')];
+    set(handles.txt_i_EoverSys, 'string', rpl_string);
+    %update plots
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
-        %assignin('base', 'handles_w_interp', handles);
         %create proper plot
         plot_controller(handles)
     end
-else
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn of working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-% else
-%     set(handles.et_i_Sys, 'BackgroundColor', [0.86  0.275  0.275]);
+    %%%%%%%%%%%%%%
+    %turn of working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    % else
+    %     set(handles.et_i_Sys, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -961,48 +961,48 @@ function et_i_n_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %        str2double(get(hObject,'String')) returns contents of et_i_n as a double
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-%turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-
-%update plots
-axes(handles.ax_i_se_plot);
-%get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
-plt_lppl_int(handles);
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-%%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-if handles.interp.cb_test_predict == 1
-    [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    
+    %update plots
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
-        %assignin('base', 'handles_w_interp', handles);
         %create proper plot
         plot_controller(handles)
     end
-else
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-% else
-%     set(handles.et_i_n, 'BackgroundColor', [0.86  0.275  0.275]);
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    % else
+    %     set(handles.et_i_n, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -1066,8 +1066,8 @@ function pop_se_scale_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 [handles]= get_interp_values_int(handles);
 axes(handles.ax_i_se_plot);
 %get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
+handles.interp.xlim_se = xlim;
+handles.interp.ylim_se = ylim;
 plt_lppl_int(handles);
 guidata(hObject, handles);
 
@@ -1096,8 +1096,8 @@ function pop_se_strain_type_Callback(hObject, eventdata, handles) %#ok<INUSL,DEF
 [handles]= get_interp_values_int(handles);
 axes(handles.ax_i_se_plot);
 %get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
+handles.interp.xlim_se = xlim;
+handles.interp.ylim_se = ylim;
 plt_lppl_int(handles);
 guidata(hObject, handles);
 
@@ -1124,8 +1124,8 @@ function cb_i_props_data_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 [handles]= get_interp_values_int(handles);
 axes(handles.ax_i_se_plot);
 %get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
+handles.interp.xlim_se = xlim;
+handles.interp.ylim_se = ylim;
 plt_lppl_int(handles);
 guidata(hObject, handles);
 
@@ -1139,8 +1139,8 @@ function pb_i_reset_cmod_axes_Callback(hObject, eventdata, handles) %#ok<INUSL,D
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 [handles]= get_interp_values_int(handles);
- axes(handles.ax_i_cmod_plot);
- %%%%%%%%%%%%%%
+axes(handles.ax_i_cmod_plot);
+%%%%%%%%%%%%%%
 %call function to run interpolation and return results in same format
 %as FEA results format
 handles.result.fea = [];
@@ -1150,7 +1150,7 @@ handles.result.fea = [];
 %create proper plot
 plot_controller(handles)
 %%%%%%%%%%%%%%
- axis auto
+axis auto
 guidata(hObject, handles);
 
 
@@ -1162,11 +1162,11 @@ function cb_fix_axes_cmod_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU
 
 % Hint: get(hObject,'Value') returns toggle state of cb_fix_axes_cmod
 [handles]= get_interp_values_int(handles);
-  axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-  %%%%%%%%%%%%%%
+axes(handles.ax_i_cmod_plot);
+%get current limit values
+handles.interp.xlim_cmod = xlim;
+handles.interp.ylim_cmod = ylim;
+%%%%%%%%%%%%%%
 %call function to run interpolation and return results in same format
 %as FEA results format
 handles.result.fea = [];
@@ -1176,7 +1176,7 @@ handles.result.fea = [];
 %create proper plot
 plot_controller(handles)
 %%%%%%%%%%%%%%
- guidata(hObject, handles);
+guidata(hObject, handles);
 
 
 % --- Executes on button press in cb_fix_se_axes.
@@ -1187,12 +1187,12 @@ function cb_fix_se_axes_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 
 % Hint: get(hObject,'Value') returns toggle state of cb_fix_se_axes
 [handles]= get_interp_values_int(handles);
-  axes(handles.ax_i_se_plot);
-  %get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
-  plt_lppl_int(handles);
- guidata(hObject, handles);
+axes(handles.ax_i_se_plot);
+%get current limit values
+handles.interp.xlim_se = xlim;
+handles.interp.ylim_se = ylim;
+plt_lppl_int(handles);
+guidata(hObject, handles);
 
 
 % --- Executes on button press in cb_extrap_soln.
@@ -1225,37 +1225,37 @@ if handles.interp.extrap_flag == 1
     rpl_string2 = ['Extrap. CMOD = ',num2str(extrap_cmod_val, '%8.5f')];
     set(handles.txt_i_extrap_CMOD, 'String', rpl_string2);
     axes(handles.ax_i_cmod_plot);
-      %%%%%%%%%%%%%%
-      %call function to run interpolation and return results in same format
-      %as FEA results format
-      %handles.result.fea = [];
-      %[handles.result.fea]= interp_solution_fea_int(handles.interp);
-%      perform EPFM calculation
-      [handles]= EPFM_calcs_standalone(handles);
-      %create proper plot
-      plot_controller(handles)
-      %%%%%%%%%%%%%
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    %handles.result.fea = [];
+    %[handles.result.fea]= interp_solution_fea_int(handles.interp);
+    %      perform EPFM calculation
+    [handles]= EPFM_calcs_standalone(handles);
+    %create proper plot
+    plot_controller(handles)
+    %%%%%%%%%%%%%
 else
     set(handles.et_i_extrap_cmod, 'String', '');
     set(handles.et_i_extrap_cmod, 'Enable', 'Off');
     set(handles.txt_i_extrap_CMOD, 'Enable', 'Off');
     [handles]= get_interp_values_int(handles);
     axes(handles.ax_i_cmod_plot);
-      %%%%%%%%%%%%%%
-      %call function to run interpolation and return results in same format
-      %as FEA results format
-      handles.result.fea = [];
-      [handles.result.fea]= interp_solution_fea_int(handles.interp);
-      %perform EPFM calculation
-      [handles]= EPFM_calcs_standalone(handles);
-      %create proper plot
-      plot_controller(handles)
-      %%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    %perform EPFM calculation
+    [handles]= EPFM_calcs_standalone(handles);
+    %create proper plot
+    plot_controller(handles)
+    %%%%%%%%%%%%%%
 end
 %turn off working light
 set(handles.txt_working, 'Enable', 'Off');
 set(handles.txt_ready, 'Enable', 'On');
- guidata(hObject, handles);
+guidata(hObject, handles);
 
 
 function et_i_extrap_cmod_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
@@ -1283,29 +1283,29 @@ elseif handles.interp.extrap_factor > 2.0
     handles.interp.extrap_factor = 2.0;
     errordlg('Extrapolation is only allowed for 1.0 <= factor <= 2.0');
 end
-    %call function to run interpolation and return results in same format
-    %as FEA results format
-    handles.result.fea = [];
-    [handles.result.fea]= interp_solution_fea_int(handles.interp);
-    %extrap_cmod_val = handles.result.fea.CMOD(end)*handles.interp.extrap_factor;
-    extrap_cmod_val = handles.result.fea.extrap_cmod_val;
-    rpl_string2 = ['Extrap. CMOD = ',num2str(extrap_cmod_val, '%8.5f')];
-    set(handles.txt_i_extrap_CMOD, 'String', rpl_string2);
-    axes(handles.ax_i_cmod_plot);
-      %%%%%%%%%%%%%%
-      %call function to run interpolation and return results in same format
-      %as FEA results format
+%call function to run interpolation and return results in same format
+%as FEA results format
+handles.result.fea = [];
+[handles.result.fea]= interp_solution_fea_int(handles.interp);
+%extrap_cmod_val = handles.result.fea.CMOD(end)*handles.interp.extrap_factor;
+extrap_cmod_val = handles.result.fea.extrap_cmod_val;
+rpl_string2 = ['Extrap. CMOD = ',num2str(extrap_cmod_val, '%8.5f')];
+set(handles.txt_i_extrap_CMOD, 'String', rpl_string2);
+axes(handles.ax_i_cmod_plot);
+%%%%%%%%%%%%%%
+%call function to run interpolation and return results in same format
+%as FEA results format
 %       handles.result.fea = [];
 %       [handles.result.fea]= interp_solution_fea_int(handles.interp);
-      %perform EPFM calculation
-      [handles]= EPFM_calcs_standalone(handles);
-      %create proper plot
-      plot_controller(handles)
-      %%%%%%%%%%%%%%
+%perform EPFM calculation
+[handles]= EPFM_calcs_standalone(handles);
+%create proper plot
+plot_controller(handles)
+%%%%%%%%%%%%%%
 %turn off working light
 set(handles.txt_working, 'Enable', 'Off');
 set(handles.txt_ready, 'Enable', 'On');
- guidata(hObject, handles);
+guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
 function et_i_extrap_cmod_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
@@ -1325,7 +1325,7 @@ end
 % % hObject    handle to pop_solution_mthd (see GCBO)
 % % eventdata  reserved - to be defined in a future version of MATLAB
 % % handles    structure with handles and user data (see GUIDATA)
-% 
+%
 % % Hints: contents = cellstr(get(hObject,'String')) returns pop_solution_mthd contents as cell array
 % %        contents{get(hObject,'Value')} returns selected item from pop_solution_mthd
 % [handles]= get_interp_values_int(handles);
@@ -1335,13 +1335,13 @@ end
 %   handles.interp.ylim_cmod = ylim;
 % plt_force_CMOD_interp(handles.testdata, handles.result, handles.interp);
 % guidata(hObject, handles);
-% 
+%
 % % --- Executes during object creation, after setting all properties.
 % function pop_solution_mthd_CreateFcn(hObject, eventdata, handles)
 % % hObject    handle to pop_solution_mthd (see GCBO)
 % % eventdata  reserved - to be defined in a future version of MATLAB
 % % handles    empty - handles not created until after all CreateFcns called
-% 
+%
 % % Hint: popupmenu controls usually have a white background on Windows.
 % %       See ISPC and COMPUTER.
 % if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
@@ -1359,32 +1359,32 @@ function et_i_tear_force_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %        str2double(get(hObject,'String')) returns contents of et_i_tear_force as a double
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-   set(handles.et_i_tear_force, 'BackgroundColor', 'w');   
-% %turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-  %%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
-% else
-%  set(handles.et_i_tear_force, 'BackgroundColor', [0.86  0.275  0.275]);
+    set(handles.et_i_tear_force, 'BackgroundColor', 'w');
+    % %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    %perform EPFM calculation
+    [handles]= EPFM_calcs_standalone(handles);
+    %create proper plot
+    plot_controller(handles)
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    % else
+    %  set(handles.et_i_tear_force, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -1411,32 +1411,32 @@ function et_i_tear_angle_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %        str2double(get(hObject,'String')) returns contents of et_i_tear_angle as a double
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-   set(handles.et_i_tear_angle, 'BackgroundColor', 'w');   
-% %turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-  %%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
-% else
-%  set(handles.et_i_tear_angle, 'BackgroundColor', [0.86  0.275  0.275]);
+    set(handles.et_i_tear_angle, 'BackgroundColor', 'w');
+    % %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    %perform EPFM calculation
+    [handles]= EPFM_calcs_standalone(handles);
+    %create proper plot
+    plot_controller(handles)
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    % else
+    %  set(handles.et_i_tear_angle, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -1467,30 +1467,30 @@ set(handles.et_i_testdata_filename, 'string', handles.testdata.testdata_filename
 %if no errors update P-CMOD plot and interpolation
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-   set(handles.et_i_testdata_filename, 'BackgroundColor', 'w');   
-% %turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-  %%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
+    set(handles.et_i_testdata_filename, 'BackgroundColor', 'w');
+    % %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    %perform EPFM calculation
+    [handles]= EPFM_calcs_standalone(handles);
+    %create proper plot
+    plot_controller(handles)
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
 end
 guidata(hObject, handles);
 
@@ -1526,7 +1526,7 @@ function cb_eval_test_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % Hint: get(hObject,'Value') returns toggle state of cb_eval_test
 [handles]= get_interp_values_int(handles);
 if handles.interp.cb_eval_test == 1
-    %turn on some features 
+    %turn on some features
     handles.result.eval_test = 1;
     set(handles.pb_i_load_testdata, 'Enable', 'On');
     set(handles.et_i_testdata_filename, 'Enable', 'On');
@@ -1552,39 +1552,39 @@ else
     set(handles.et_i_tear_angle, 'string', '');
     set(handles.et_i_tear_force, 'string', '');
     %clear out some values if not performing test evaluation
-     handles.result.tear_load = [];
-     handles.result.tear_angle = [];
-     handles.testdata.CMOD = 0;
-     handles.testdata.force = 0;
-     handles.testdata.testdata_filename = [];
+    handles.result.tear_load = [];
+    handles.result.tear_angle = [];
+    handles.testdata.CMOD = 0;
+    handles.testdata.force = 0;
+    handles.testdata.testdata_filename = [];
     
 end
 %if no errors update P-CMOD plot and interpolation
 [handles]= get_interp_values_int(handles);
-if handles.interp.ErrorFound == 0  
-% %turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-  %%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
+if handles.interp.ErrorFound == 0
+    % %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    %perform EPFM calculation
+    [handles]= EPFM_calcs_standalone(handles);
+    %create proper plot
+    plot_controller(handles)
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
 end
 
 guidata(hObject, handles);
@@ -1625,34 +1625,34 @@ function et_crit_Jc_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % Hints: get(hObject,'String') returns contents of et_crit_Jc as text
 %        str2double(get(hObject,'String')) returns contents of et_crit_Jc as a double
 [handles]= get_interp_values_int(handles);
-if handles.interp.ErrorFound == 0   
-%turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-  %%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-%get force and CMOD corresponding to choice of crit J and Phi
-[handles.result]= pretest_predict(handles.result);
-if handles.result.predict_flag == 1
-    %perform EPFM calculation
-    [handles]= EPFM_calcs_standalone(handles);
-    %assignin('base', 'handles_w_interp', handles);
-    %create proper plot
-    plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
+if handles.interp.ErrorFound == 0
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    %get force and CMOD corresponding to choice of crit J and Phi
+    [handles.result]= pretest_predict(handles.result);
+    if handles.result.predict_flag == 1
+        %perform EPFM calculation
+        [handles]= EPFM_calcs_standalone(handles);
+        %assignin('base', 'handles_w_interp', handles);
+        %create proper plot
+        plot_controller(handles)
+    end
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
 end
 guidata(hObject, handles);
 
@@ -1678,34 +1678,34 @@ function et_crit_phi_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % Hints: get(hObject,'String') returns contents of et_crit_phi as text
 %        str2double(get(hObject,'String')) returns contents of et_crit_phi as a double
 [handles]= get_interp_values_int(handles);
-if handles.interp.ErrorFound == 0   
-%turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-  %%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-%get force and CMOD corresponding to choice of crit J and Phi
-[handles.result]= pretest_predict(handles.result);
-if handles.result.predict_flag == 1
-    %perform EPFM calculation
-    [handles]= EPFM_calcs_standalone(handles);
-    %assignin('base', 'handles_w_interp', handles);
-    %create proper plot
-    plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
+if handles.interp.ErrorFound == 0
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    %get force and CMOD corresponding to choice of crit J and Phi
+    [handles.result]= pretest_predict(handles.result);
+    if handles.result.predict_flag == 1
+        %perform EPFM calculation
+        [handles]= EPFM_calcs_standalone(handles);
+        %assignin('base', 'handles_w_interp', handles);
+        %create proper plot
+        plot_controller(handles)
+    end
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
 end
 guidata(hObject, handles);
 
@@ -1736,9 +1736,9 @@ if handles.interp.cb_test_predict == 1
     set(handles.et_crit_Jc, 'Enable', 'On');
     set(handles.et_crit_phi, 'Enable', 'On');
     set(handles.cb_eval_test, 'value', 0);
-     handles.testdata.CMOD = 0;
-     handles.testdata.force = 0;
-     handles.testdata.testdata_filename = [];
+    handles.testdata.CMOD = 0;
+    handles.testdata.force = 0;
+    handles.testdata.testdata_filename = [];
     %turn off some features unless test data is present
     set(handles.pb_i_load_testdata, 'Enable', 'Off');
     set(handles.et_i_testdata_filename, 'Enable', 'Off');
@@ -1752,38 +1752,38 @@ else
     %turn off some features unless test data is present
     handles.result.predict_test = 0;
     handles.result.eval_test = 0;
-     handles.result.tear_load = [];
-     handles.result.tear_angle = [];
+    handles.result.tear_load = [];
+    handles.result.tear_angle = [];
     set(handles.et_crit_Jc, 'Enable', 'Off');
     set(handles.et_crit_phi, 'Enable', 'Off');
     set(handles.et_crit_Jc, 'string', '');
     set(handles.et_crit_phi, 'string', '');
-%if no errors update P-CMOD plot and interpolation
-[handles]= get_interp_values_int(handles);
-if handles.interp.ErrorFound == 0  
-    % %turn on working light
-    set(handles.txt_working, 'Enable', 'On');
-    set(handles.txt_ready, 'Enable', 'Off');
-    %tell code to update gui to show working light
-    drawnow();
-    axes(handles.ax_i_cmod_plot);
-      %get current limit values
-      handles.interp.xlim_cmod = xlim;
-      handles.interp.ylim_cmod = ylim;
-      %%%%%%%%%%%%%%
-    %call function to run interpolation and return results in same format
-    %as FEA results format
-    handles.result.fea = [];
-    [handles.result.fea]= interp_solution_fea_int(handles.interp);
-    %perform EPFM calculation
-    [handles]= EPFM_calcs_standalone(handles);
-    %create proper plot
-    plot_controller(handles)
-    %%%%%%%%%%%%%%
-    %turn off working light
-    set(handles.txt_working, 'Enable', 'Off');
-    set(handles.txt_ready, 'Enable', 'On');
-end    
+    %if no errors update P-CMOD plot and interpolation
+    [handles]= get_interp_values_int(handles);
+    if handles.interp.ErrorFound == 0
+        % %turn on working light
+        set(handles.txt_working, 'Enable', 'On');
+        set(handles.txt_ready, 'Enable', 'Off');
+        %tell code to update gui to show working light
+        drawnow();
+        axes(handles.ax_i_cmod_plot);
+        %get current limit values
+        handles.interp.xlim_cmod = xlim;
+        handles.interp.ylim_cmod = ylim;
+        %%%%%%%%%%%%%%
+        %call function to run interpolation and return results in same format
+        %as FEA results format
+        handles.result.fea = [];
+        [handles.result.fea]= interp_solution_fea_int(handles.interp);
+        %perform EPFM calculation
+        [handles]= EPFM_calcs_standalone(handles);
+        %create proper plot
+        plot_controller(handles)
+        %%%%%%%%%%%%%%
+        %turn off working light
+        set(handles.txt_working, 'Enable', 'Off');
+        set(handles.txt_ready, 'Enable', 'On');
+    end
 end
 
 guidata(hObject, handles);
@@ -1799,32 +1799,32 @@ function et_err_factor_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 %        str2double(get(hObject,'String')) returns contents of et_err_factor as a double
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-%turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-%%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
-drawnow();
-% else
-%     set(handles.et_i_a, 'BackgroundColor', [0.86  0.275  0.275]);
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    %perform EPFM calculation
+    [handles]= EPFM_calcs_standalone(handles);
+    %create proper plot
+    plot_controller(handles)
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    drawnow();
+    % else
+    %     set(handles.et_i_a, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -1882,13 +1882,13 @@ if handles.interp.ErrorFound == 0
     drawnow();
     axes(handles.ax_i_se_plot);
     %get current limit values
-      handles.interp.xlim_se = xlim;
-      handles.interp.ylim_se = ylim;
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
     plt_lppl_int(handles);
     axes(handles.ax_i_cmod_plot);
-      %get current limit values
-      handles.interp.xlim_cmod = xlim;
-      handles.interp.ylim_cmod = ylim;
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
     %%%%%%%%%%%%%%
     %call function to run interpolation and return results in same format
     %as FEA results format
@@ -1904,11 +1904,11 @@ if handles.interp.ErrorFound == 0
             plot_controller(handles)
         end
     else
-    %perform EPFM calculation
-    [handles]= EPFM_calcs_standalone(handles);
-    %assignin('base', 'handles_w_interp', handles);
-    %create proper plot
-    plot_controller(handles)
+        %perform EPFM calculation
+        [handles]= EPFM_calcs_standalone(handles);
+        %assignin('base', 'handles_w_interp', handles);
+        %create proper plot
+        plot_controller(handles)
     end
     %%%%%%%%%%%%%%
     %turn off working light
@@ -1956,13 +1956,13 @@ if handles.interp.ErrorFound == 0
     drawnow();
     axes(handles.ax_i_se_plot);
     %get current limit values
-      handles.interp.xlim_se = xlim;
-      handles.interp.ylim_se = ylim;
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
     plt_lppl_int(handles);
     axes(handles.ax_i_cmod_plot);
-      %get current limit values
-      handles.interp.xlim_cmod = xlim;
-      handles.interp.ylim_cmod = ylim;
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
     %%%%%%%%%%%%%%
     %call function to run interpolation and return results in same format
     %as FEA results format
@@ -1978,11 +1978,11 @@ if handles.interp.ErrorFound == 0
             plot_controller(handles)
         end
     else
-    %perform EPFM calculation
-    [handles]= EPFM_calcs_standalone(handles);
-    %assignin('base', 'handles_w_interp', handles);
-    %create proper plot
-    plot_controller(handles)
+        %perform EPFM calculation
+        [handles]= EPFM_calcs_standalone(handles);
+        %assignin('base', 'handles_w_interp', handles);
+        %create proper plot
+        plot_controller(handles)
     end
     %%%%%%%%%%%%%%
     %turn off working light
@@ -2021,7 +2021,7 @@ set(handles.et_crit_Jc, 'Enable', 'Off');
 set(handles.et_crit_phi, 'Enable', 'Off');
 set(handles.et_crit_Jc, 'string', '');
 set(handles.et_crit_phi, 'string', '');
-    
+
 set(handles.et_i_2c,   'String', '');
 set(handles.et_i_a,   'String','' );
 set(handles.et_i_W,   'String', '');
@@ -2038,7 +2038,7 @@ handles.fea_props.base_index = [];
 handles.interp.cb_test_predict = 0;
 handles.result.tear_angle = [];
 handles.result.eval_test = 0;
-handles.result.predict_test = 0;   
+handles.result.predict_test = 0;
 %
 %set default save path to same location as ntrp file
 handles.save_path = handles.in.save_path;
@@ -2117,7 +2117,7 @@ end
 %if stress strain data exists in props file, try to estimate Sys and n
 %for LPPL model
 if ~isempty(handles.fea_props.base_index) && ~isempty(handles.fea_props.se_index)
-        %estimate Sys value by averaging first 3 points in table
+    %estimate Sys value by averaging first 3 points in table
     est_Sys = (handles.fea_props.base_se(3,1)+handles.fea_props.base_se(2,1)+...
         handles.fea_props.base_se(1,1))/3;
     set(handles.et_i_Sys, 'string', num2str(est_Sys, '%9.2f'));
@@ -2127,7 +2127,7 @@ if ~isempty(handles.fea_props.base_index) && ~isempty(handles.fea_props.se_index
             handles.fea_props.base_se(i,2); %#ok<AGROW>
     end
     total_e = total_e';
-    [dat_vals, ~] = polyfit(log10(total_e), log10(handles.fea_props.base_se(:,1)),1); 
+    [dat_vals, ~] = polyfit(log10(total_e), log10(handles.fea_props.base_se(:,1)),1);
     n = 1/dat_vals(1);
     if n > 20
         n = 20;
@@ -2153,10 +2153,10 @@ if handles.interp.cb_test_predict == 1
     set(handles.et_crit_Jc, 'Enable', 'On');
     set(handles.et_crit_phi, 'Enable', 'On');
     set(handles.cb_eval_test, 'value', 0);
-     handles.testdata.CMOD = 0;
-     handles.testdata.force = 0;
-     handles.testdata.testdata_filename = [];
-     set(handles.cb_eval_test, 'value', 0);
+    handles.testdata.CMOD = 0;
+    handles.testdata.force = 0;
+    handles.testdata.testdata_filename = [];
+    set(handles.cb_eval_test, 'value', 0);
     %turn off some features unless test data is present
     set(handles.pb_i_load_testdata, 'Enable', 'Off');
     set(handles.et_i_testdata_filename, 'Enable', 'Off');
@@ -2188,7 +2188,7 @@ if handles.interp.cb_eval_test == 1
     set(handles.et_crit_phi, 'Enable', 'Off');
     set(handles.et_crit_Jc, 'string', '');
     set(handles.et_crit_phi, 'string', '');
-       %set some values
+    %set some values
     set(handles.et_i_tear_force,   'String', handles.in.result.tear_load);
     set(handles.et_i_tear_angle,   'String', handles.in.result.tear_angle);
     handles.testdata.force = handles.in.testdata.force;
@@ -2204,48 +2204,48 @@ end
 %assignin('base', 'handles_w_interp', handles);
 [handles]= get_interp_values_int(handles);
 if handles.interp.ErrorFound == 0
-% %turn on working light
-set(handles.txt_working, 'Enable', 'On');
-set(handles.txt_ready, 'Enable', 'Off');
-%tell code to update gui to show working light
-drawnow();
-axes(handles.ax_i_se_plot);
-%get current limit values
-  handles.interp.xlim_se = xlim;
-  handles.interp.ylim_se = ylim;
-plt_lppl_int(handles);
-
-axes(handles.ax_i_cmod_plot);
-  %get current limit values
-  handles.interp.xlim_cmod = xlim;
-  handles.interp.ylim_cmod = ylim;
-%%%%%%%%%%%%%%
-%call function to run interpolation and return results in same format
-%as FEA results format
-handles.result.fea = [];
-[handles.result.fea]= interp_solution_fea_int(handles.interp);
-if handles.interp.cb_test_predict == 1
-    [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1
+    % %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
-        %assignin('base', 'handles_w_interp', handles);
         %create proper plot
         plot_controller(handles)
     end
-else
-%perform EPFM calculation
-[handles]= EPFM_calcs_standalone(handles);
-%create proper plot
-plot_controller(handles)
-end
-%%%%%%%%%%%%%%
-%turn off working light
-set(handles.txt_working, 'Enable', 'Off');
-set(handles.txt_ready, 'Enable', 'On');
-%tell code to update gui to show working light
-% else
-%  set(handles.et_i_2c, 'BackgroundColor', [0.86  0.275  0.275]);
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    % else
+    %  set(handles.et_i_2c, 'BackgroundColor', [0.86  0.275  0.275]);
 end
 guidata(hObject, handles);
 
@@ -2266,10 +2266,10 @@ function pb_choose_folder_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU
 % handles    structure with handles and user data (see GUIDATA)
 st_path = cd;
 if isempty(handles.save_path)
-handles.save_path = uigetdir(st_path,'Choose Directory for Output Data Location');
+    handles.save_path = uigetdir(st_path,'Choose Directory for Output Data Location');
 else
-st_path = char(handles.save_path);   
-handles.save_path = uigetdir(st_path,'Choose Directory for Output Data Location');    
+    st_path = char(handles.save_path);
+    handles.save_path = uigetdir(st_path,'Choose Directory for Output Data Location');
 end
 guidata(hObject, handles);
 
@@ -2340,7 +2340,7 @@ function menu_show_SC_image_Callback(hObject, eventdata, handles) %#ok<DEFNU,INU
 % handles    structure with handles and user data (see GUIDATA)
 %open a fig window and show a picture of the SC geometry
 SC_fig = figure( 'Name','Show_SC_fig',...
-                         'NumberTitle','off','color', 'w');
+    'NumberTitle','off','color', 'w');
 axes_SC = axes('Parent',SC_fig);
 axes(axes_SC);
 imshow('SC_picture.jpg','InitialMagnification',35) %uses image toolbox

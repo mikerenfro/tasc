@@ -22,7 +22,7 @@ function varargout = tasc(varargin)
 
 % Edit the above text to modify the response to help tasc
 
-% Last Modified by GUIDE v2.5 27-Sep-2013 09:02:56
+% Last Modified by GUIDE v2.5 03-Oct-2018 16:12:36
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -838,6 +838,15 @@ if handles.interp.ErrorFound == 0
     %call function to run interpolation and return results in same format
     %as FEA results format
     handles.result.fea = [];
+    handles.interp.S_in = str2double(get(handles.et_i_Sin, 'String'));
+    handles.interp.S_out = str2double(get(handles.et_i_Sout, 'String'));
+    if get(handles.rb_tension, 'Value')==1
+        handles.interp.rb_tension = 1;
+        handles.interp.rb_bending = 0;
+    else
+        handles.interp.rb_tension = 0;
+        handles.interp.rb_bending = 1;
+    end
     [handles.result.fea]= interp_solution_fea_int(handles.interp);
     if handles.interp.cb_test_predict == 1
         [handles.result]= pretest_predict(handles.result);
@@ -913,6 +922,13 @@ if handles.interp.ErrorFound == 0
     %call function to run interpolation and return results in same format
     %as FEA results format
     handles.result.fea = [];
+    if get(handles.rb_tension, 'Value')==1
+        handles.interp.rb_tension = 1;
+        handles.interp.rb_bending = 0;
+    else
+        handles.interp.rb_tension = 0;
+        handles.interp.rb_bending = 1;
+    end
     [handles.result.fea]= interp_solution_fea_int(handles.interp);
     if handles.interp.cb_test_predict == 1
         [handles.result]= pretest_predict(handles.result);
@@ -2220,6 +2236,13 @@ if handles.interp.ErrorFound == 0
     %get current limit values
     handles.interp.xlim_cmod = xlim;
     handles.interp.ylim_cmod = ylim;
+    if get(handles.rb_tension, 'Value')==1
+        handles.interp.rb_tension = 1;
+        handles.interp.rb_bending = 0;
+    else
+        handles.interp.rb_tension = 0;
+        handles.interp.rb_bending = 1;
+    end
     %%%%%%%%%%%%%%
     %call function to run interpolation and return results in same format
     %as FEA results format
@@ -2358,3 +2381,152 @@ else
     open('TASC_manual.pdf');
 end
 guidata(hObject, handles);
+
+
+% --- Executes when selected object is changed in analysis_type.
+function analysis_type_SelectionChangedFcn(hObject, eventdata, handles) %#ok<DEFNU,INUSL>
+% hObject    handle to the selected object in analysis_type 
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% fprintf('Tension: %d\n', get(handles.rb_tension, 'Value'));
+% fprintf('Bending: %d\n', get(handles.rb_bending, 'Value'));
+[handles]= get_interp_values_int(handles);
+if handles.interp.ErrorFound == 0
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
+        %perform EPFM calculation
+        [handles]= EPFM_calcs_standalone(handles);
+        %create proper plot
+        plot_controller(handles)
+    end
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    drawnow();
+    % else
+    %     set(handles.et_i_W, 'BackgroundColor', [0.86  0.275  0.275]);
+end
+if get(handles.rb_tension, 'Value')==1
+    set(handles.et_i_Sin, 'Enable', 'Off');
+    set(handles.et_i_Sout, 'Enable', 'Off');
+else
+    set(handles.et_i_Sin, 'Enable', 'On');
+    set(handles.et_i_Sout, 'Enable', 'On');
+end
+guidata(hObject, handles);
+
+
+
+function et_i_Sin_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSL>
+% hObject    handle to et_i_Sin (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of et_i_Sin as text
+%        str2double(get(hObject,'String')) returns contents of et_i_Sin as a double
+[handles]= get_interp_values_int(handles);
+handles.interp.S_in = str2double(get(hObject,'String'));
+if handles.interp.ErrorFound == 0
+    %turn on working light
+    set(handles.txt_working, 'Enable', 'On');
+    set(handles.txt_ready, 'Enable', 'Off');
+    %tell code to update gui to show working light
+    drawnow();
+    axes(handles.ax_i_se_plot);
+    %get current limit values
+    handles.interp.xlim_se = xlim;
+    handles.interp.ylim_se = ylim;
+    plt_lppl_int(handles);
+    axes(handles.ax_i_cmod_plot);
+    %get current limit values
+    handles.interp.xlim_cmod = xlim;
+    handles.interp.ylim_cmod = ylim;
+    %%%%%%%%%%%%%%
+    %call function to run interpolation and return results in same format
+    %as FEA results format
+    handles.result.fea = [];
+    [handles.result.fea]= interp_solution_fea_int(handles.interp);
+    if handles.interp.cb_test_predict == 1
+        [handles.result]= pretest_predict(handles.result);
+        if handles.result.predict_flag == 1
+            %perform EPFM calculation
+            [handles]= EPFM_calcs_standalone(handles);
+            %assignin('base', 'handles_w_interp', handles);
+            %create proper plot
+            plot_controller(handles)
+        end
+    else
+        %perform EPFM calculation
+        [handles]= EPFM_calcs_standalone(handles);
+        %create proper plot
+        plot_controller(handles)
+    end
+    %%%%%%%%%%%%%%
+    %turn off working light
+    set(handles.txt_working, 'Enable', 'Off');
+    set(handles.txt_ready, 'Enable', 'On');
+    %tell code to update gui to show working light
+    drawnow();
+    % else
+    %     set(handles.et_i_W, 'BackgroundColor', [0.86  0.275  0.275]);
+end
+guidata(hObject, handles);
+
+% --- Executes during object creation, after setting all properties.
+function et_i_Sin_CreateFcn(hObject, eventdata, handles) %#ok<DEFNU>
+% hObject    handle to et_i_Sin (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+
+function et_i_Sout_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSL>
+% hObject    handle to et_i_Sout (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of et_i_Sout as text
+%        str2double(get(hObject,'String')) returns contents of et_i_Sout as a double
+handles.interp.S_out = str2double(get(hObject,'String'));
+guidata(hObject, handles);
+
+% --- Executes during object creation, after setting all properties.
+function et_i_Sout_CreateFcn(hObject, eventdata, handles) %#ok<DEFNU>
+% hObject    handle to et_i_Sout (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+

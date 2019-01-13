@@ -18,7 +18,14 @@ an = af-pi*a*2*c/4;
 %force factor
 ff = interp.ff;
 %far stress factor
-fsf = (1/af)/ff;
+if interp.rb_tension==1
+    fsf = (1/af)/ff; % tension
+    % fprintf('Setting fsf to %f (tension)\n',fsf);
+else
+    Ixx = width*B^3/12;
+    fsf = 0.25*(interp.S_out-interp.S_in)*(B/2)/Ixx/ff;
+    % fprintf('Setting fsf to %f (bending)\n',fsf);
+end
 
 %get data necessary to draw 5% error bands at tear CMOD
 tear_force = result.tear_load;
@@ -148,13 +155,22 @@ end
 %create horizontal lines at far field and net section yield
 xdat = [0 max(fea_CMOD)];
 ydat1 = [Sys, Sys];
-ydat2 = ydat1.*(an/af);
 plot(xdat, ydat1, '--b');
-plot(xdat, ydat2, '-.c');
-text(fea_CMOD(2),ydat1(1),'Section Yield','HorizontalAlignment',...
-    'left','FontSize',10, 'BackgroundColor','w');
-text(fea_CMOD(2),ydat2(1),'Net Section Yield','HorizontalAlignment',...
-    'left','FontSize',10, 'BackgroundColor','w');
+if interp.rb_tension==1
+    ydat2 = ydat1.*(an/af);
+    plot(xdat, ydat2, '-.c');
+    text(fea_CMOD(2),ydat1(1),'Section Yield','HorizontalAlignment',...
+        'left','FontSize',10, 'BackgroundColor','w');
+    text(fea_CMOD(2),ydat2(1),'Net Section Yield','HorizontalAlignment',...
+        'left','FontSize',10, 'BackgroundColor','w');
+else
+%     ydat2 = ydat1.*(a/B);
+%     plot(xdat, ydat2, '-.c');
+    text(fea_CMOD(2),ydat1(1),'Outer Fiber Yield','HorizontalAlignment',...
+        'left','FontSize',10, 'BackgroundColor','w');
+%     text(fea_CMOD(2),ydat2(1),'Crack Depth Yield','HorizontalAlignment',...
+%         'left','FontSize',10, 'BackgroundColor','w');
+end
 hold off
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

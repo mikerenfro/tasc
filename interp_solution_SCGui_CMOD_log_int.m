@@ -73,9 +73,17 @@ for i = 1:4
         Tmp(i,j).An = Tmp(i,j).A - 3.141592*Tmp(i,j).a*Tmp(i,j).c/2;
         Tmp(i,j).A_ratio = Tmp(i,j).An/Tmp(i,j).A;
         Tmp(i,j).A_ratio_inv = Tmp(i,j).A/Tmp(i,j).An;
-        Tmp(i,j).net_stress = Tmp(i,j).A_ratio_inv*Tmp(i,j).St_far;
+        if strcmp(Tmp(i,j).moment_flag,'no')
+            Tmp(i,j).net_stress = Tmp(i,j).A_ratio_inv*Tmp(i,j).St_far;
+        else
+            Tmp(i,j).net_stress = Tmp(i,j).A_ratio_inv*Tmp(i,j).S_bend;
+        end
         Tmp(i,j).max_net_stress = Tmp(i,j).net_stress(length(Tmp(i,j).net_stress));
-        Tmp(i,j).max_far_stress = Tmp(i,j).St_far(length(Tmp(i,j).St_far));
+        if strcmp(Tmp(i,j).moment_flag, 'no')
+            Tmp(i,j).max_far_stress = Tmp(i,j).St_far(length(Tmp(i,j).St_far));
+        else
+            Tmp(i,j).max_far_stress = Tmp(i,j).S_bend(length(Tmp(i,j).S_bend));
+        end
         Tmp(i,j).max_CMOD = Tmp(i,j).CMOD(length(Tmp(i,j).CMOD));
         max_net_stress(k) = Tmp(i,j).max_net_stress; %#ok<AGROW>
         max_far_stress(k) = Tmp(i,j).max_far_stress; %#ok<AGROW>
@@ -113,7 +121,11 @@ for i = 1:4
             %fit Power law Power2 function to last 5 data points
             xdata = Tmp(i,j).CMOD(end-4:end)';
             ydata = Tmp(i,j).net_stress(end-4:end)';
-            ydata2 = Tmp(i,j).St_far(end-4:end)';
+            if strcmp(Tmp(i,j).moment_flag,'no')
+                ydata2 = Tmp(i,j).St_far(end-4:end)';
+            else
+                ydata2 = Tmp(i,j).S_bend(end-4:end)';
+            end
             %code below uses CF toolbox
             plFit = fit(xdata, ydata,'power2');
             plFit2 = fit(xdata, ydata2,'power2');
@@ -125,7 +137,11 @@ for i = 1:4
                 Tmp(i,j).CMOD(lengthIT + k) = Tmp(i,j).max_CMOD+ spaceIT*k;
                 %calculate new net stress point using Power2 fit
                 Tmp(i,j).net_stress(lengthIT + k) = plFit(Tmp(i,j).CMOD(lengthIT + k));
-                Tmp(i,j).St_far(lengthIT + k) = plFit2(Tmp(i,j).CMOD(lengthIT + k));
+                if strcmp(Tmp(i,j).moment_flag,'no')
+                    Tmp(i,j).St_far(lengthIT + k) = plFit2(Tmp(i,j).CMOD(lengthIT + k));
+                else
+                    Tmp(i,j).S_bend(lengthIT + k) = plFit2(Tmp(i,j).CMOD(lengthIT + k));
+                end
                 %                 %interpolate to calc new Jtotal and Jel values
                 for l = 1:length(Tmp(i,j).Phi)
                     X = Tmp(i,j).CMOD(1:lengthIT + k-1);
@@ -140,7 +156,11 @@ for i = 1:4
             lengthIT = length(Tmp(i,j).CMOD);
             Tmp(i,j).CMOD(lengthIT + 1) = avg_CMOD;
             Tmp(i,j).net_stress(lengthIT + 1) = plFit(Tmp(i,j).CMOD(lengthIT + 1));
-            Tmp(i,j).St_far(lengthIT + 1) = plFit2(Tmp(i,j).CMOD(lengthIT + 1));
+            if strcmp(Tmp(i,j).moment_flag,'no')
+                Tmp(i,j).St_far(lengthIT + 1) = plFit2(Tmp(i,j).CMOD(lengthIT + 1));
+            else
+                Tmp(i,j).S_bend(lengthIT + 1) = plFit2(Tmp(i,j).CMOD(lengthIT + 1));
+            end
             %interpolate to calc new Jtotal and Jel values
             for l = 1:length(Tmp(i,j).Phi)
                 X = Tmp(i,j).CMOD(1:lengthIT);
@@ -178,7 +198,11 @@ for i = 1:4
         for k = 1:length(CMOD_inc)
             %net stress corresponding to CMOD increment
             Y = Tmp(i,j).net_stress;
-            Y2 = Tmp(i,j).St_far;
+            if strcmp(Tmp(i,j).moment_flag,'no')
+                Y2 = Tmp(i,j).St_far;
+            else
+                Y2 = Tmp(i,j).S_bend;
+            end
             X = Tmp(i,j).CMOD;
             Xi = CMOD_inc(k);
             Tmp(i,j).int_net_stress(k) = interp1(X,Y,Xi,'linear','extrap');

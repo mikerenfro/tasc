@@ -11,7 +11,7 @@ ff = handles.interp.ff;
 jf = handles.interp.jf;
 %
 %define variables
-tear_load_type = 2; %tension loading
+tear_load_type = 2; % 2 for tension loading, 3 for bending loading
 a = handles.result.fea.a;
 c = handles.result.fea.c;
 width = handles.result.fea.width;

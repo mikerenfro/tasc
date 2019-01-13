@@ -17,7 +17,6 @@ str4 = rpl_string;
 % tear_CMOD_analysis = 0;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 fea_force = result.fea.reac_force;
 %fea_force = fea_force';
 

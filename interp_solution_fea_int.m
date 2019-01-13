@@ -8,7 +8,12 @@ ff = interp.ff;
 jf = interp.jf;
 %
 input = interp.interp_data.input;
-res = interp.interp_data.result;
+
+if interp.rb_tension==1
+    res = interp.interp_data.result;
+else
+    res = interp.interp_data.result_bending;
+end
 aB_pick = interp.a/interp.B;
 ac_pick = interp.a/interp.two_c*2;
 n_pick = interp.n;
@@ -17,6 +22,8 @@ Sys_pick = interp.Sys;
 E_Sys_pick = E_pick/Sys_pick;
 W_pick = interp.W;
 B_pick = interp.B;
+S_in_pick = interp.S_in;
+S_out_pick = interp.S_out;
 %perform interpolation
 if interp.solution_mthd == 1
     [~,~,~,~,Final] =...
@@ -44,8 +51,15 @@ interp_CMOD = Final.int_CMOD*B_pick;
 %%%%------------------------------------------------------------------
 %%%%------------------------------------------------------------------
 %code to base force and stress values off of interpolated far stress
-interp_force = Final.far_stress_inc.*Sys_pick.*Afar_interp;%based on far stress
-interp_far_stress = Final.far_stress_inc*Sys_pick;
+if interp.rb_tension==1
+    interp_far_stress = Final.far_stress_inc*Sys_pick;
+    interp_force = interp_far_stress.*Afar_interp;%based on far stress
+else
+    interp_far_stress = Final.far_stress_inc*Sys_pick;
+    Ixx = W_pick*(B_pick^3)/12;
+    interp_moment = (interp_far_stress*Ixx)/(B_pick/2);
+    interp_force = 4*interp_moment/(S_out_pick-S_in_pick);
+end
 % interp_net_stress = interp_far_stress*(Afar_interp/Anet_interp);
 %%%%------------------------------------------------------------------
 % interp_A_ratio = Anet_interp/Afar_interp;
@@ -63,11 +77,19 @@ fea.Jel_EPFM = interp_Jel.*jf;
 fea.Kavg = [];
 fea.TstressAvg = [];
 %add values to "fea" cell array
-fea.moment_flag = 'no'; %interpolation only currently valid for tension
-%set dummy bending stress to zero
-fea.S_bend = 0;
+if interp.rb_tension == 1
+    fea.moment_flag = 'no';
+    %set dummy bending stress to zero
+    fea.S_bend = 0;
+    fea.St_far = interp_far_stress;
+    fea.BCstring = 'Disp';
+else
+    fea.moment_flag = 'no';
+    fea.St_far = 0;
+    fea.S_bend = interp_far_stress;
+    fea.BCString = 'Traction';
+end
 fea.CharStress = max(interp_far_stress); % assume max far stress for now
-fea.St_far = interp_far_stress;
 fea.reac_force=interp_force';
 fea.reac_force=fea.reac_force.*ff;
 fea.CMOD=interp_CMOD;
@@ -89,7 +111,6 @@ fea.Phi=Final.interp_phi;
 %values from input file if available
 fea.inp_exists = 'yes';
 fea.BCvalue = [];
-fea.BCstring = 'Disp'; %all interp. FEM are Disp. BC
 fea.base_E_fea = interp.E;
 fea.base_nu_fea = 0.30;
 fea.haz_E_fea = [];

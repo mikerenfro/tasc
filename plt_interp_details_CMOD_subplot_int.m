@@ -1,7 +1,11 @@
 function plt_interp_details_CMOD_subplot_int(interp, output_dir)
 %define variables
 input = interp.interp_data.input;
-res = interp.interp_data.result;
+if get(handles.rb_tension, 'Value')==1
+    res = interp.interp_data.result;
+else
+    res = interp.interp_data.result_bending;
+end
 aB_pick = interp.a/interp.B;
 ac_pick = interp.a/interp.two_c*2;
 n_pick = interp.n;

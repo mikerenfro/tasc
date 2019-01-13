@@ -12,6 +12,17 @@ handles.interp.two_c = str2double(get(handles.et_i_2c,   'String'));
 handles.interp.a = str2double(get(handles.et_i_a,   'String'));
 handles.interp.W = str2double(get(handles.et_i_W,   'String'));
 handles.interp.B = str2double(get(handles.et_i_B,   'String'));
+if get(handles.rb_tension, 'Value')==1
+    handles.interp.rb_tension=1;
+    handles.interp.rb_bending=0;
+    handles.interp.S_in = [];
+    handles.interp.S_out = [];
+else
+    handles.interp.rb_tension=0;
+    handles.interp.rb_bending=1;
+    handles.interp.S_in = str2double(get(handles.et_i_Sin,   'String'));
+    handles.interp.S_out = str2double(get(handles.et_i_Sout,   'String'));
+end
 handles.interp.E = str2double(get(handles.et_i_E,   'String'));
 handles.interp.Sys = str2double(get(handles.et_i_Sys,   'String'));
 handles.interp.n = str2double(get(handles.et_i_n,   'String'));
@@ -280,6 +291,7 @@ elseif ErrorFound == 0
     set(handles.et_i_E, 'BackgroundColor', 'w');
     set(handles.et_i_Sys, 'BackgroundColor', 'w');
 end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Check to see if everything is correct
 %If so let them continue

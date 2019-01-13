@@ -11,7 +11,11 @@ end
 FullFileName1 = strcat(PathName1,FileName1);
 load(FullFileName1,'handles');
 %
-fea = handles.result.fea;
+if get(handles.rb_tension, 'Value')==1
+    fea = handles.result.fea;
+else
+    fea = handles.result_bending.fea;
+end
 %  aB_pick = fea.a/fea.B;
 %  ac_pick = fea.a/fea.c;
 W_fea = fea.width;
@@ -30,7 +34,11 @@ Anet_fea = Afar_fea - 3.141592*a_fea*c_fea/2;
 force_fea = fea.St_net*Anet_fea;
 %interpolation variables
 input = interp.interp_data.input;
-res = interp.interp_data.result;
+if get(handles.rb_tension, 'Value')==1
+    res = interp.interp_data.result;
+else
+    res = interp.interp_data.result_bending;
+end
 aB_pick = interp.a/interp.B;
 ac_pick = interp.a/interp.two_c*2;
 n_pick = interp.n;

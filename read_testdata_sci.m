@@ -15,12 +15,12 @@ fid = fopen(handles.FullFileName2, 'rt');
 ts = textscan(fid, '%[^\r\n]');
 Text = ts{1};
 % data_index = strmatch('*CMOD', Text);
-data_index = find(strncmp('*CMOD',Text,5)==1);
+data_index = find_string_index('*CMOD',Text);
 if isempty(data_index)
     errordlg('"*CMOD" keword not found, please import a test data file with the appropriate format');
 else
     % end_data_index = strmatch('*end_test_data', Text);
-    end_data_index = find(strncmp('*end_test_data',Text,14)==1);
+    end_data_index = find_string_index('*end_test_data');
     data_length = end_data_index-data_index-1;
     for i = 1:data_length
         %use textscan to allow reading of tab, space, or comma delimited

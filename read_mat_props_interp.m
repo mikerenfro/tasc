@@ -20,16 +20,16 @@ Text = ts{1};
 
 % base_index = strmatch('*material', Text);
 % end_index = strmatch('*end_material', Text, 'exact');
-base_index = find(strncmp('*material', Text, 9)==1, 1);
-end_index = find(strncmp('*end_material', Text, 13)==1, 1);
+base_index = find_string_index('*material', Text);
+end_index = find_string_index('*end_material', Text);
 fea_props.base_index = base_index;
 % se_index = strmatch('*stress', Text);
-se_index = find(strncmp('*stress', Text, 7)==1, 1);
+se_index = find_string_index('*stress', Text);
 fea_props.se_index = se_index;
 %read base metal properties
 if ~isempty(base_index)
     % E_index = strmatch('*E', Text);
-    E_index = find(strncmp('*E', Text, 2)==1, 1);
+    E_index = find_string_index('*E', Text);
     fea_props.base_E = sscanf(Text{E_index},'%*s %f');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %added these lines 3/8/12 to assist in interpolation routine
@@ -54,8 +54,8 @@ if ~isempty(base_index)
     else
         % Sys_index = strmatch('*Sys', Text);
         % n_index = strmatch('*n', Text);
-        Sys_index = find(strncmp('*Sys', Text, 4)==1, 1);
-        n_index = find(strncmp('*n', Text, 2)==1, 1);
+        Sys_index = find_string_index('*Sys', Text);
+        n_index = find_string_index('*n', Text);
         fea_props.Sys_NotTable = sscanf(Text{Sys_index},'%*s %f');
         fea_props.n = sscanf(Text{n_index},'%*s %f');
         fea_props.base_se(1,1) = 0;

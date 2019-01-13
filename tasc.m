@@ -2358,7 +2358,6 @@ function menu_user_manual_Callback(hObject, eventdata, handles)
 if ispc
     winopen('TASC_manual.pdf');
 else
-    mac_Message = 'Sorry this option is not yet available on Mac OS. Please look in the install directory for the manual';
-   mac_msg = msgbox(mac_Message,'Not available for MAC OS','help'); 
+    open('TASC_manual.pdf');
 end
 guidata(hObject, handles);

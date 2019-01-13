@@ -1,28 +1,36 @@
 function [fea_props]= read_mat_props
 
 [FileName,PathName] = uigetfile({'*.prop'},'Select File');
-    if FileName == 0
-        return;
-    end
+if FileName == 0
+    return;
+end
+
+if ~strcmpi(FileName(end-4:end), '.prop')
     
-    if ~strcmpi(FileName(end-4:end), '.prop')
-        
-        errordlg('This file is not a material data file.  File name must end with: ''*.prop''',...
-            'File Error');
-        return;
-    end
+    errordlg('This file is not a material data file.  File name must end with: ''*.prop''',...
+        'File Error');
+    return;
+end
 
 FullFileName = strcat(PathName,FileName);
-[Text] = textread(FullFileName, '%[^\n]');
-
-base_index = strmatch('base', Text);
-haz_index = strmatch('haz', Text);
-weld_index = strmatch('weld', Text);
-end_index = strmatch('end', Text);
+% [Text] = textread(FullFileName, '%[^\n]');
+fid = fopen(FullFileName, 'rt');
+ts = textscan(fid, '%[^\r\n]');
+Text = ts{1};
+% base_index = strmatch('base', Text);
+% haz_index = strmatch('haz', Text);
+% weld_index = strmatch('weld', Text);
+% end_index = strmatch('end', Text);
+base_index = strncmp('base', Text, 4);
+haz_index = strncmp('haz', Text, 3);
+weld_index = strncmp('weld', Text, 4);
+end_index = strncmp('end', Text, 3);
 fea_props.base_index = base_index;
 fea_props.haz_index = haz_index;
-Sys_index = strmatch('sys', Text);
-Sult_index = strmatch('sult', Text);
+% Sys_index = strmatch('sys', Text);
+% Sult_index = strmatch('sult', Text);
+Sys_index = strncmp('sys', Text, 3);
+Sult_index = strncmp('sult', Text, 4);
 %read base metal properties
 if ~isempty(base_index)
     fea_props.base_E = sscanf(Text{base_index+1},'%f');

@@ -1,4 +1,4 @@
-function plt_interp_details_CMOD_subplot_int(interp)
+function plt_interp_details_CMOD_subplot_int(interp, output_dir)
 %define variables
 input = interp.interp_data.input;
 res = interp.interp_data.result;
@@ -21,9 +21,9 @@ E_bounds = Final.E_bounds;
 %create plots to check out interpolated solution
 %---------------------------------------------------------
 %set some plot variables
-PathName = cd;
+% PathName = cd;
 % output_dir = cd;
-output_dir = strcat(PathName, filesep);
+% output_dir = strcat(PathName, filesep);
 %output_dir = strcat(PathName, '\Interp_Detail_plots\');
 %mkdir(output_dir);
 %warning off MATLAB:MKDIR:DirectoryExists
@@ -302,7 +302,7 @@ ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_Fon
 % title('J_{total} vs. Phi at last load step');
 hold off
 if save_images
-    print_file = [output_dir figname];
+    print_file = [output_dir filesep figname];
     
     switch figure_save_type
         case 'Metafiles'
@@ -481,7 +481,7 @@ ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_Fon
 % title('J_{total} vs. Phi at last load step');
 hold off
 if save_images
-    print_file = [output_dir figname];
+    print_file = [output_dir filesep figname];
     
     switch figure_save_type
         case 'Metafiles'
@@ -658,7 +658,7 @@ ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_Fon
 % title('J_{total} vs. Phi at last load step');
 hold off
 if save_images
-    print_file = [output_dir figname];
+    print_file = [output_dir filesep figname];
     
     switch figure_save_type
         case 'Metafiles'
@@ -829,7 +829,7 @@ ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_Fon
 % title('J_{total} vs. Phi at last load step');
 hold off
 if save_images
-    print_file = [output_dir figname];
+    print_file = [output_dir filesep figname];
     
     switch figure_save_type
         case 'Metafiles'

@@ -789,17 +789,18 @@ function menu_interp_details_Callback(hObject, eventdata, handles) %#ok<INUSL,DE
 current_path2 = cd;
 if isempty(handles.save_path)
     mkdir(current_path2, 'Interp_Detail_plots');
-    cd Interp_Detail_plots;
+    %cd Interp_Detail_plots;
+    detail_path = strcat(current_path2, filesep, 'Interp_Detail_plots');
 else
     save_path2 = handles.save_path;
     mkdir(save_path2, 'Interp_Detail_plots');
     warning off MATLAB:MKDIR:DirectoryExists
-    gotodir2 = strcat(save_path2, filesep, 'Interp_Detail_plots');
-    cd(gotodir2);
+    detail_path = strcat(save_path2, filesep, 'Interp_Detail_plots');
+    %cd(gotodir2);
     %cd Solution_Files;
 end
 %
-plt_interp_details_CMOD_subplot_int(handles.interp);
+plt_interp_details_CMOD_subplot_int(handles.interp, detail_path);
 %
 cd(current_path2)
 guidata(hObject, handles);

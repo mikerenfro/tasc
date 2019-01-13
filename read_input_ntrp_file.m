@@ -107,7 +107,7 @@ if ~isempty(test_eval_index)
     force_index = find_string_index('*tear_force', Text);
     phi_index = find_string_index('*tear_phi', Text);
     data_index = find_string_index('*CMOD', Text);
-    end_data_index = find_string_index('*end_test_data');
+    end_data_index = find_string_index('*end_test_data', Text);
     data_length = end_data_index-data_index-1;
     for i = 1:data_length
         %in.testdata.CMOD(i) = sscanf(Text{data_index+i},'%f %*f');

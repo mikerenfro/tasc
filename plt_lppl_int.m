@@ -58,7 +58,7 @@ else
     ylabel(handles.result.stress_str);
     
     if se_table(1,1) ~= 0 && handles.interp.se_data_plot_flag == 1
-        se_total = zeros(size(se_table));
+        se_total = zeros(1, length(se_table));
         for i = 1:length(se_table)
             se_total(i) = se_table(i,2)+ se_table(i,1)/E;
         end

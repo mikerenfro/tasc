@@ -45,7 +45,7 @@ end
 
 
 % --- Executes just before tasc is made visible.
-function tasc_OpeningFcn(hObject, eventdata, handles, varargin)
+function tasc_OpeningFcn(hObject, eventdata, handles, varargin) %#ok<INUSL>
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -253,7 +253,7 @@ guidata(hObject, handles);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = tasc_OutputFcn(hObject, eventdata, handles) 
+function varargout = tasc_OutputFcn(hObject, eventdata, handles)  %#ok<INUSL>
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -264,7 +264,7 @@ varargout{1} = handles.output;
 
 
 % --- Executes on button press in pb_i_solve_save.
-function pb_i_solve_save_Callback(hObject, eventdata, handles)
+function pb_i_solve_save_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to pb_i_solve_save (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -367,7 +367,7 @@ guidata(hObject, handles);
 
 
 
-function et_i_soln_name_Callback(hObject, eventdata, handles)
+function et_i_soln_name_Callback(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_soln_name (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -377,7 +377,7 @@ function et_i_soln_name_Callback(hObject, eventdata, handles)
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_soln_name_CreateFcn(hObject, eventdata, handles)
+function et_i_soln_name_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_soln_name (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -390,7 +390,7 @@ end
 
 
 % --- Executes on button press in pb_i_import_props.
-function pb_i_import_props_Callback(hObject, eventdata, handles)
+function pb_i_import_props_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to pb_i_import_props (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -484,7 +484,7 @@ end
 guidata(hObject, handles);
 
 
-function et_i_2c_Callback(hObject, eventdata, handles)
+function et_i_2c_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_2c (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -542,7 +542,7 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_2c_CreateFcn(hObject, eventdata, handles)
+function et_i_2c_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_2c (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -555,7 +555,7 @@ end
 
 
 
-function et_i_a_Callback(hObject, eventdata, handles)
+function et_i_a_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_a (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -611,7 +611,7 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_a_CreateFcn(hObject, eventdata, handles)
+function et_i_a_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_a (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -624,7 +624,7 @@ end
 
 
 
-function et_i_W_Callback(hObject, eventdata, handles)
+function et_i_W_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_W (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -680,7 +680,7 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_W_CreateFcn(hObject, eventdata, handles)
+function et_i_W_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_W (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -693,7 +693,7 @@ end
 
 
 
-function et_i_B_Callback(hObject, eventdata, handles)
+function et_i_B_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_B (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -750,7 +750,7 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_B_CreateFcn(hObject, eventdata, handles)
+function et_i_B_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_B (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -763,14 +763,14 @@ end
 
 
 % --------------------------------------------------------------------
-function menu_adv_opt_Callback(hObject, eventdata, handles)
+function menu_adv_opt_Callback(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to menu_adv_opt (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
 % --------------------------------------------------------------------
-function menu_FEA_compare_Callback(hObject, eventdata, handles)
+function menu_FEA_compare_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to menu_FEA_compare (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -779,7 +779,7 @@ interp_to_fea_compare(handles.interp)
 guidata(hObject, handles);
 
 % --------------------------------------------------------------------
-function menu_interp_details_Callback(hObject, eventdata, handles)
+function menu_interp_details_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to menu_interp_details (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -804,7 +804,7 @@ plt_interp_details_CMOD_subplot_int(handles.interp);
 cd(current_path2)
 guidata(hObject, handles);
 
-function et_i_E_Callback(hObject, eventdata, handles)
+function et_i_E_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_E (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -864,7 +864,7 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_E_CreateFcn(hObject, eventdata, handles)
+function et_i_E_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_E (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -877,7 +877,7 @@ end
 
 
 
-function et_i_Sys_Callback(hObject, eventdata, handles)
+function et_i_Sys_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_Sys (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -941,7 +941,7 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_Sys_CreateFcn(hObject, eventdata, handles)
+function et_i_Sys_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_Sys (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -954,7 +954,7 @@ end
 
 
 
-function et_i_n_Callback(hObject, eventdata, handles)
+function et_i_n_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_n (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1012,7 +1012,7 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_n_CreateFcn(hObject, eventdata, handles)
+function et_i_n_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_n (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1025,7 +1025,7 @@ end
 
 
 
-function et_i_props_filename_Callback(hObject, eventdata, handles)
+function et_i_props_filename_Callback(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_props_filename (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1035,7 +1035,7 @@ function et_i_props_filename_Callback(hObject, eventdata, handles)
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_props_filename_CreateFcn(hObject, eventdata, handles)
+function et_i_props_filename_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_props_filename (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1048,7 +1048,7 @@ end
 
 
 % --- Executes on button press in pb_i_reset_se_axes.
-function pb_i_reset_se_axes_Callback(hObject, eventdata, handles)
+function pb_i_reset_se_axes_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to pb_i_reset_se_axes (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1060,7 +1060,7 @@ guidata(hObject, handles);
 
 
 % --- Executes on selection change in pop_se_scale.
-function pop_se_scale_Callback(hObject, eventdata, handles)
+function pop_se_scale_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to pop_se_scale (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1077,7 +1077,7 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function pop_se_scale_CreateFcn(hObject, eventdata, handles)
+function pop_se_scale_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to pop_se_scale (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1090,7 +1090,7 @@ end
 
 
 % --- Executes on selection change in pop_se_strain_type.
-function pop_se_strain_type_Callback(hObject, eventdata, handles)
+function pop_se_strain_type_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to pop_se_strain_type (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1106,7 +1106,7 @@ plt_lppl_int(handles);
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function pop_se_strain_type_CreateFcn(hObject, eventdata, handles)
+function pop_se_strain_type_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to pop_se_strain_type (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1119,7 +1119,7 @@ end
 
 
 % --- Executes on button press in cb_i_props_data.
-function cb_i_props_data_Callback(hObject, eventdata, handles)
+function cb_i_props_data_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to cb_i_props_data (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1138,7 +1138,7 @@ guidata(hObject, handles);
 
 
 % --- Executes on button press in pb_i_reset_cmod_axes.
-function pb_i_reset_cmod_axes_Callback(hObject, eventdata, handles)
+function pb_i_reset_cmod_axes_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to pb_i_reset_cmod_axes (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1159,7 +1159,7 @@ guidata(hObject, handles);
 
 
 % --- Executes on button press in cb_fix_axes_cmod.
-function cb_fix_axes_cmod_Callback(hObject, eventdata, handles)
+function cb_fix_axes_cmod_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to cb_fix_axes_cmod (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1184,7 +1184,7 @@ plot_controller(handles)
 
 
 % --- Executes on button press in cb_fix_se_axes.
-function cb_fix_se_axes_Callback(hObject, eventdata, handles)
+function cb_fix_se_axes_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to cb_fix_se_axes (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1200,7 +1200,7 @@ function cb_fix_se_axes_Callback(hObject, eventdata, handles)
 
 
 % --- Executes on button press in cb_extrap_soln.
-function cb_extrap_soln_Callback(hObject, eventdata, handles)
+function cb_extrap_soln_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to cb_extrap_soln (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1262,7 +1262,7 @@ set(handles.txt_ready, 'Enable', 'On');
  guidata(hObject, handles);
 
 
-function et_i_extrap_cmod_Callback(hObject, eventdata, handles)
+function et_i_extrap_cmod_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_extrap_cmod (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1312,7 +1312,7 @@ set(handles.txt_ready, 'Enable', 'On');
  guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function et_i_extrap_cmod_CreateFcn(hObject, eventdata, handles)
+function et_i_extrap_cmod_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_extrap_cmod (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1354,7 +1354,7 @@ end
 
 
 
-function et_i_tear_force_Callback(hObject, eventdata, handles)
+function et_i_tear_force_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_tear_force (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1393,7 +1393,7 @@ end
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function et_i_tear_force_CreateFcn(hObject, eventdata, handles)
+function et_i_tear_force_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_tear_force (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1406,7 +1406,7 @@ end
 
 
 
-function et_i_tear_angle_Callback(hObject, eventdata, handles)
+function et_i_tear_angle_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_i_tear_angle (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1446,7 +1446,7 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_tear_angle_CreateFcn(hObject, eventdata, handles)
+function et_i_tear_angle_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_tear_angle (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1459,7 +1459,7 @@ end
 
 
 % --- Executes on button press in pb_i_load_testdata.
-function pb_i_load_testdata_Callback(hObject, eventdata, handles)
+function pb_i_load_testdata_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to pb_i_load_testdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1499,7 +1499,7 @@ end
 guidata(hObject, handles);
 
 
-function et_i_testdata_filename_Callback(hObject, eventdata, handles)
+function et_i_testdata_filename_Callback(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_testdata_filename (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1509,7 +1509,7 @@ function et_i_testdata_filename_Callback(hObject, eventdata, handles)
 
 
 % --- Executes during object creation, after setting all properties.
-function et_i_testdata_filename_CreateFcn(hObject, eventdata, handles)
+function et_i_testdata_filename_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_testdata_filename (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1522,7 +1522,7 @@ end
 
 
 % --- Executes on button press in cb_eval_test.
-function cb_eval_test_Callback(hObject, eventdata, handles)
+function cb_eval_test_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to cb_eval_test (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1595,7 +1595,7 @@ guidata(hObject, handles);
 
 
 % --- Executes on selection change in pop_plot_select.
-function pop_plot_select_Callback(hObject, eventdata, handles)
+function pop_plot_select_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to pop_plot_select (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1608,7 +1608,7 @@ axes(handles.ax_i_cmod_plot);
 plot_controller(handles)
 guidata(hObject, handles);
 % --- Executes during object creation, after setting all properties.
-function pop_plot_select_CreateFcn(hObject, eventdata, handles)
+function pop_plot_select_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to pop_plot_select (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1621,7 +1621,7 @@ end
 
 
 
-function et_crit_Jc_Callback(hObject, eventdata, handles)
+function et_crit_Jc_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_crit_Jc (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1661,7 +1661,7 @@ end
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function et_crit_Jc_CreateFcn(hObject, eventdata, handles)
+function et_crit_Jc_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_crit_Jc (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1674,7 +1674,7 @@ end
 
 
 
-function et_crit_phi_Callback(hObject, eventdata, handles)
+function et_crit_phi_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_crit_phi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1714,7 +1714,7 @@ end
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function et_crit_phi_CreateFcn(hObject, eventdata, handles)
+function et_crit_phi_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_crit_phi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1727,7 +1727,7 @@ end
 
 
 % --- Executes on button press in cb_test_predict.
-function cb_test_predict_Callback(hObject, eventdata, handles)
+function cb_test_predict_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to cb_test_predict (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1794,7 +1794,7 @@ guidata(hObject, handles);
 
 
 
-function et_err_factor_Callback(hObject, eventdata, handles)
+function et_err_factor_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to et_err_factor (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1833,7 +1833,7 @@ end
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function et_err_factor_CreateFcn(hObject, eventdata, handles)
+function et_err_factor_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_err_factor (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -1846,14 +1846,14 @@ end
 
 
 % --------------------------------------------------------------------
-function menu_units_Callback(hObject, eventdata, handles)
+function menu_units_Callback(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to menu_units (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
 % --------------------------------------------------------------------
-function menu_units_us_Callback(hObject, eventdata, handles)
+function menu_units_us_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to menu_units_us (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -1927,7 +1927,7 @@ end
 guidata(hObject, handles);
 
 % --------------------------------------------------------------------
-function menu_units_SI_Callback(hObject, eventdata, handles)
+function menu_units_SI_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to menu_units_SI (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -2001,7 +2001,7 @@ guidata(hObject, handles);
 
 
 % --------------------------------------------------------------------
-function menu_read_input_file_Callback(hObject, eventdata, handles)
+function menu_read_input_file_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to menu_read_input_file (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -2255,7 +2255,7 @@ guidata(hObject, handles);
 
 
 % --- Executes on button press in cb_save_plots.
-function cb_save_plots_Callback(hObject, eventdata, handles)
+function cb_save_plots_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSD>
 % hObject    handle to cb_save_plots (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -2264,7 +2264,7 @@ function cb_save_plots_Callback(hObject, eventdata, handles)
 
 
 % --- Executes on button press in pb_choose_folder.
-function pb_choose_folder_Callback(hObject, eventdata, handles)
+function pb_choose_folder_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to pb_choose_folder (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -2279,14 +2279,14 @@ guidata(hObject, handles);
 
 
 % --------------------------------------------------------------------
-function menu_plot_save_Callback(hObject, eventdata, handles)
+function menu_plot_save_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSD>
 % hObject    handle to menu_plot_save (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
 % --------------------------------------------------------------------
-function menu_emf_Callback(hObject, eventdata, handles)
+function menu_emf_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to menu_emf (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -2297,7 +2297,7 @@ set(handles.menu_jpeg, 'Checked', 'Off');
 set(handles.menu_tiff, 'Checked', 'Off');
 guidata(hObject, handles);
 % --------------------------------------------------------------------
-function menu_jpeg_Callback(hObject, eventdata, handles)
+function menu_jpeg_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to menu_jpeg (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -2308,7 +2308,7 @@ set(handles.menu_tiff, 'Checked', 'Off');
 guidata(hObject, handles);
 
 % --------------------------------------------------------------------
-function menu_tiff_Callback(hObject, eventdata, handles)
+function menu_tiff_Callback(hObject, eventdata, handles) %#ok<INUSL,DEFNU>
 % hObject    handle to menu_tiff (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -2319,7 +2319,7 @@ set(handles.menu_tiff, 'Checked', 'On');
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function ax_logo_CreateFcn(hObject, eventdata, handles)
+function ax_logo_CreateFcn(hObject, eventdata, handles) %#ok<DEFNU,INUSD>
 % hObject    handle to ax_logo (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -2331,14 +2331,14 @@ function ax_logo_CreateFcn(hObject, eventdata, handles)
 
 
 % --------------------------------------------------------------------
-function menu_help_Callback(hObject, eventdata, handles)
+function menu_help_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSD>
 % hObject    handle to menu_help (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
 % --------------------------------------------------------------------
-function menu_show_SC_image_Callback(hObject, eventdata, handles)
+function menu_show_SC_image_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSD>
 % hObject    handle to menu_show_SC_image (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -2351,7 +2351,7 @@ imshow('SC_picture.jpg','InitialMagnification',35) %uses image toolbox
 guidata(hObject, handles);
 
 % --------------------------------------------------------------------
-function menu_user_manual_Callback(hObject, eventdata, handles)
+function menu_user_manual_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSD>
 % hObject    handle to menu_user_manual (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

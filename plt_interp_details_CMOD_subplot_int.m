@@ -111,48 +111,22 @@ plot(Final.int_CMOD, Final.far_stress_inc, '-kp','LineWidth',1,...
     'MarkerFaceColor','g',...
     'MarkerSize',11)
 %hold on
-set(gcf, 'PaperUnits','inches', 'PaperSize', [8.5 11],...
-    'PaperOrientation', 'portrait',...
-    'PaperPosition',[.25 .25 8.0 10] );
+set_figure_paper(gcf);
 %create legend text based on geometry and material properties
 legend_txt = cell(1, 17);
-legend_txt{1} = strcat('Interp., ', 'a/B=',...
-    num2str(aB_pick, '%4.2f'), ', a/c=', num2str(ac_pick, '%4.2f'),...
-    ', n=',num2str(n_pick, '%4.1f'), ', E/','\sigma_{ys}=', num2str(E_Sys_pick, '%5.0f'));
+legend_txt{1} = sprintf('Interp., a/B=%4.2f, a/c=%4.2f, n=%4.1f, E/\\sigma_{ys}=%5.0f',...
+    aB_pick, ac_pick, n_pick, E_Sys_pick);
 k = 2;
 for i = 1:4
     for j = 1:4
         %set plot index for legend text
-        if j == 1
-            aBplt = 1;
-            acplt = 1;
-        elseif j == 2
-            aBplt = 1;
-            acplt = 2;
-        elseif j == 3
-            aBplt = 2;
-            acplt = 1;
-        elseif j == 4
-            aBplt = 2;
-            acplt = 2;
-        end
-        %-----------------------
-        if i == 1
-            nplt = 1;
-            Eplt = 1;
-        elseif i == 2
-            nplt = 1;
-            Eplt = 2;
-        elseif i == 3
-            nplt = 2;
-            Eplt = 1;
-        elseif i == 4
-            nplt = 2;
-            Eplt = 2;
-        end
-        legend_txt{k} =  strcat('a/B=',...
-            num2str(aB_bounds(aBplt)), ', a/c=', num2str(ac_bounds(acplt)),...
-            ', n=',num2str(n_bounds(nplt)), ', E/\sigma_{ys}=', num2str(E_bounds(Eplt)));
+        aBplt = ceil(j/2); % 1 1 2 2 for j=1:4
+        acplt = 2-mod(j,2); % 1 2 1 2 for j=1:4
+        nplt = ceil(i/2); % 1 1 2 2 for i=1:4
+        Eplt = 2-mod(i,2); % 1 2 1 2 for i=1:4
+        legend_txt{k} = sprintf('a/B=%g, a/c=%g, n=%g, E/\\sigma_{ys}=%g', ...
+            aB_bounds(aBplt), ac_bounds(acplt), ...
+            n_bounds(nplt), E_bounds(Eplt));
         k = k+1;
     end
 end
@@ -303,19 +277,7 @@ ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_Fon
 hold off
 if save_images
     print_file = [output_dir filesep figname];
-    
-    switch figure_save_type
-        case 'Metafiles'
-            print(gcf,'-dmeta','-r300',print_file);
-        case 'Bitmaps'
-            print(gcf,'-dbmp' ,'-r300',print_file);
-        case 'JPEGs'
-            print(gcf,'-djpeg','-r300',print_file);
-        case 'PNGs'
-            print(gcf,'-dpng' ,'-r300',print_file);
-        case 'TIFFs'
-            print(gcf,'-dtiff','-r300',print_file);
-    end
+    print_figure(print_file, figure_save_type);
 end
 %--------------------------------------------------------------
 %--------------------------------------------------------------
@@ -336,44 +298,24 @@ plot(Final.int_CMOD, Final.far_stress_inc, '-kp','LineWidth',1,...
     'MarkerFaceColor','g',...
     'MarkerSize',11)
 %hold on
-set(gcf, 'PaperUnits','inches', 'PaperSize', [8.5 11],...
-    'PaperOrientation', 'portrait',...
-    'PaperPosition',[.25 .25 8.0 10] );
+set_figure_paper(gcf);
 %create legend text based on geometry and material properties
 legend_txt = cell(1, 9);
-legend_txt{1} = strcat('Interp., ', 'a/B=',...
-    num2str(aB_pick, '%4.2f'), ', a/c=', num2str(ac_pick, '%4.2f'),...
-    ', n=',num2str(n_pick, '%4.1f'), ', E/\sigma_{ys}=', num2str(E_Sys_pick, '%5.0f'));
+legend_txt{1} = sprintf('Interp., a/B=%4.2f, a/c=%4.2f, n=%4.1f, E/\\sigma_{ys}=%5.0f',...
+    aB_pick, ac_pick, n_pick, E_Sys_pick);
 %set ac_bounds = ac_pick since a/c interpolation is complete
 ac_bounds = ac_pick;
 k = 2;
 for i = 1:4
     for j = 1:2
         %set plot index for legend text
-        if j == 1
-            aBplt = 1;
-            acplt = 1;
-        elseif j == 2
-            aBplt = 2;
-            acplt = 1;
-        end
-        %-----------------------
-        if i == 1
-            nplt = 1;
-            Eplt = 1;
-        elseif i == 2
-            nplt = 1;
-            Eplt = 2;
-        elseif i == 3
-            nplt = 2;
-            Eplt = 1;
-        elseif i == 4
-            nplt = 2;
-            Eplt = 2;
-        end
-        legend_txt{k} =  strcat('a/B=',...
-            num2str(aB_bounds(aBplt), '%4.2f'), ', a/c=', num2str(ac_bounds(acplt), '%4.2f'),...
-            ', n=',num2str(n_bounds(nplt), '%4.1f'), ', E/\sigma_{ys}=', num2str(E_bounds(Eplt), '%5.0f'));
+        aBplt = j; % 1 2 for j=1:2
+        acplt = 1;
+        nplt = ceil(i/2); % 1 1 2 2 for i=1:4
+        Eplt = 2-mod(i,2); % 1 2 1 2 for i=1:4
+        legend_txt{k} = sprintf('a/B=%4.2f, a/c=%4.2f, n=%4.1f, E/\\sigma_{ys}=%5.0f', ...
+            aB_bounds(aBplt), ac_bounds(acplt), ...
+            n_bounds(nplt), E_bounds(Eplt));
         k = k+1;
     end
 end
@@ -482,19 +424,7 @@ ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_Fon
 hold off
 if save_images
     print_file = [output_dir filesep figname];
-    
-    switch figure_save_type
-        case 'Metafiles'
-            print(gcf,'-dmeta','-r300',print_file);
-        case 'Bitmaps'
-            print(gcf,'-dbmp' ,'-r300',print_file);
-        case 'JPEGs'
-            print(gcf,'-djpeg','-r300',print_file);
-        case 'PNGs'
-            print(gcf,'-dpng' ,'-r300',print_file);
-        case 'TIFFs'
-            print(gcf,'-dtiff','-r300',print_file);
-    end
+    print_figure(print_file, figure_save_type);
 end
 
 %
@@ -514,14 +444,11 @@ plot(Final.int_CMOD, Final.far_stress_inc, '-kp','LineWidth',1,...
     'MarkerFaceColor','g',...
     'MarkerSize',11)
 %hold on
-set(gcf, 'PaperUnits','inches', 'PaperSize', [8.5 11],...
-    'PaperOrientation', 'portrait',...
-    'PaperPosition',[.25 .25 8.0 10] );
+set_figure_paper(gcf);
 %create legend text based on geometry and material properties
 legend_txt = cell(1, 5);
-legend_txt{1} = strcat('Interp., ', 'a/B=',...
-    num2str(aB_pick, '%4.2f'), ', a/c=', num2str(ac_pick, '%4.2f'),...
-    ', n=',num2str(n_pick, '%4.1f'), ', E/\sigma_{ys}=', num2str(E_Sys_pick, '%5.0f'));
+legend_txt{1} = sprintf('Interp., a/B=%4.2f, a/c=%4.2f, n=%4.1f, E/\\sigma_{ys}=%5.0f',...
+    aB_pick, ac_pick, n_pick, E_Sys_pick);
 %set ac_bounds = ac_pick since a/c interpolation is complete
 %set aB_bounds = ac_pick since a/B interpolation is complete
 ac_bounds = ac_pick;
@@ -530,27 +457,13 @@ k = 2;
 for i = 1:4
     for j = 1:1
         %set plot index for legend text
-        if j == 1
-            aBplt = 1;
-            acplt = 1;
-        end
-        %-----------------------
-        if i == 1
-            nplt = 1;
-            Eplt = 1;
-        elseif i == 2
-            nplt = 1;
-            Eplt = 2;
-        elseif i == 3
-            nplt = 2;
-            Eplt = 1;
-        elseif i == 4
-            nplt = 2;
-            Eplt = 2;
-        end
-        legend_txt{k} =  strcat('a/B=',...
-            num2str(aB_bounds(aBplt), '%4.2f'), ', a/c=', num2str(ac_bounds(acplt), '%4.2f'),...
-            ', n=',num2str(n_bounds(nplt), '%4.1f'), ', E/\sigma_{ys}=', num2str(E_bounds(Eplt), '%5.0f'));
+        aBplt = 1;
+        acplt = 1;
+        nplt = ceil(i/2); % 1 1 2 2 for i=1:4
+        Eplt = 2-mod(i,2); % 1 2 1 2 for i=1:4
+        legend_txt{k} = sprintf('a/B=%4.2f, a/c=%4.2f, n=%4.1f, E/\\sigma_{ys}=%5.0f', ...
+            aB_bounds(aBplt), ac_bounds(acplt), ...
+            n_bounds(nplt), E_bounds(Eplt));
         k = k+1;
     end
 end
@@ -659,19 +572,7 @@ ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_Fon
 hold off
 if save_images
     print_file = [output_dir filesep figname];
-    
-    switch figure_save_type
-        case 'Metafiles'
-            print(gcf,'-dmeta','-r300',print_file);
-        case 'Bitmaps'
-            print(gcf,'-dbmp' ,'-r300',print_file);
-        case 'JPEGs'
-            print(gcf,'-djpeg','-r300',print_file);
-        case 'PNGs'
-            print(gcf,'-dpng' ,'-r300',print_file);
-        case 'TIFFs'
-            print(gcf,'-dtiff','-r300',print_file);
-    end
+    print_figure(print_file, figure_save_type);
 end
 % %++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 % % Plot 2 Temp4 data sets with interpolated solution
@@ -689,14 +590,11 @@ plot(Final.int_CMOD, Final.far_stress_inc, '-kp','LineWidth',1,...
     'MarkerFaceColor','g',...
     'MarkerSize',11)
 %hold on
-set(gcf, 'PaperUnits','inches', 'PaperSize', [8.5 11],...
-    'PaperOrientation', 'portrait',...
-    'PaperPosition',[.25 .25 8.0 10] );
+set_figure_paper(gcf);
 %create legend text based on geometry and material properties
 legend_txt = cell(1, 3);
-legend_txt{1} = strcat('Interp., ', 'a/B=',...
-    num2str(aB_pick, '%4.2f'), ', a/c=', num2str(ac_pick, '%4.2f'),...
-    ', n=',num2str(n_pick, '%4.1f'), ', E/\sigma_{ys}=', num2str(E_Sys_pick, '%5.0f'));
+legend_txt{1} = sprintf('Interp., a/B=%4.2f, a/c=%4.2f, n=%4.1f, E/\\sigma_{ys}=%5.0f',...
+    aB_pick, ac_pick, n_pick, E_Sys_pick);
 %set ac_bounds = ac_pick since a/c interpolation is complete
 %set aB_bounds = ac_pick since a/B interpolation is complete
 %set n_bounds = ac_pick since "n" interpolation is complete
@@ -707,21 +605,13 @@ k = 2;
 for i = 1:2
     for j = 1:1
         %set plot index for legend text
-        if j == 1
-            aBplt = 1;
-            acplt = 1;
-        end
-        %-----------------------
-        if i == 1
-            nplt = 1;
-            Eplt = 1;
-        elseif i == 2
-            nplt = 1;
-            Eplt = 2;
-        end
-        legend_txt{k} =  strcat('a/B=',...
-            num2str(aB_bounds(aBplt), '%4.2f'), ', a/c=', num2str(ac_bounds(acplt), '%4.2f'),...
-            ', n=',num2str(n_bounds(nplt), '%4.1f'), ', E/\sigma_{ys}=', num2str(E_bounds(Eplt), '%5.0f'));
+        aBplt = 1;
+        acplt = 1;
+        nplt = 1;
+        Eplt = 2-mod(i,2); % 1 2 for i=1:2
+        legend_txt{k} = sprintf('a/B=%4.2f, a/c=%4.2f, n=%4.1f, E/\\sigma_{ys}=%5.0f', ...
+            aB_bounds(aBplt), ac_bounds(acplt), ...
+            n_bounds(nplt), E_bounds(Eplt));
         k = k+1;
     end
 end
@@ -830,21 +720,28 @@ ylabel(yaxis_label,'FontName', plotspec.y_FontName, 'FontWeight', plotspec.y_Fon
 hold off
 if save_images
     print_file = [output_dir filesep figname];
-    
-    switch figure_save_type
-        case 'Metafiles'
-            print(gcf,'-dmeta','-r300',print_file);
-        case 'Bitmaps'
-            print(gcf,'-dbmp' ,'-r300',print_file);
-        case 'JPEGs'
-            print(gcf,'-djpeg','-r300',print_file);
-        case 'PNGs'
-            print(gcf,'-dpng' ,'-r300',print_file);
-        case 'TIFFs'
-            print(gcf,'-dtiff','-r300',print_file);
-    end
+    print_figure(print_file, figure_save_type);
 end
 
+end
 
+function set_figure_paper(fig)
+set(fig, 'PaperUnits','inches', 'PaperSize', [8.5 11],...
+    'PaperOrientation', 'portrait',...
+    'PaperPosition',[.25 .25 8.0 10] );
+end
 
+function print_figure(print_file, figure_save_type)
+switch figure_save_type
+    case 'Metafiles'
+        print(gcf,'-dmeta','-r300',print_file);
+    case 'Bitmaps'
+        print(gcf,'-dbmp' ,'-r300',print_file);
+    case 'JPEGs'
+        print(gcf,'-djpeg','-r300',print_file);
+    case 'PNGs'
+        print(gcf,'-dpng' ,'-r300',print_file);
+    case 'TIFFs'
+        print(gcf,'-dtiff','-r300',print_file);
+end
 end

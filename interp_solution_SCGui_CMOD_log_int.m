@@ -3,7 +3,7 @@
 %interpolation scheme based on CMOD matching
 %11/20/12 - Modify code to also calcualte interpolated sigma_far
 %----------------------------------------------------------------%
-function [Tmp,Tmp2,Tmp3,Tmp4,Final] = interp_solution_SCGui_CMOD_log_int(input,result,aB_pick,ac_pick,n_pick,E_pick) 
+function [Tmp,Tmp2,Tmp3,Tmp4,Final] = interp_solution_SCGui_CMOD_log_int(input,result,aB_pick,ac_pick,n_pick,E_pick)
 %choose the number of load step increments for interpolation
 n_steps = 20;
 %choose the number of phi increments for interploated solution
@@ -69,18 +69,18 @@ Tmp(4,4) = result(aB_index,ac_index,n_index,E_index).fea; %D4
 k = 1;
 for i = 1:4
     for j = 1:4
-     Tmp(i,j).A = Tmp(i,j).width*Tmp(i,j).B;
-     Tmp(i,j).An = Tmp(i,j).A - 3.141592*Tmp(i,j).a*Tmp(i,j).c/2;
-     Tmp(i,j).A_ratio = Tmp(i,j).An/Tmp(i,j).A;
-     Tmp(i,j).A_ratio_inv = Tmp(i,j).A/Tmp(i,j).An;
-     Tmp(i,j).net_stress = Tmp(i,j).A_ratio_inv*Tmp(i,j).St_far;
-     Tmp(i,j).max_net_stress = Tmp(i,j).net_stress(length(Tmp(i,j).net_stress));
-     Tmp(i,j).max_far_stress = Tmp(i,j).St_far(length(Tmp(i,j).St_far));
-     Tmp(i,j).max_CMOD = Tmp(i,j).CMOD(length(Tmp(i,j).CMOD));
-     max_net_stress(k) = Tmp(i,j).max_net_stress;
-     max_far_stress(k) = Tmp(i,j).max_far_stress;
-     max_CMOD(k) = Tmp(i,j).max_CMOD;
-     k = k+1;
+        Tmp(i,j).A = Tmp(i,j).width*Tmp(i,j).B;
+        Tmp(i,j).An = Tmp(i,j).A - 3.141592*Tmp(i,j).a*Tmp(i,j).c/2;
+        Tmp(i,j).A_ratio = Tmp(i,j).An/Tmp(i,j).A;
+        Tmp(i,j).A_ratio_inv = Tmp(i,j).A/Tmp(i,j).An;
+        Tmp(i,j).net_stress = Tmp(i,j).A_ratio_inv*Tmp(i,j).St_far;
+        Tmp(i,j).max_net_stress = Tmp(i,j).net_stress(length(Tmp(i,j).net_stress));
+        Tmp(i,j).max_far_stress = Tmp(i,j).St_far(length(Tmp(i,j).St_far));
+        Tmp(i,j).max_CMOD = Tmp(i,j).CMOD(length(Tmp(i,j).CMOD));
+        max_net_stress(k) = Tmp(i,j).max_net_stress; %#ok<AGROW>
+        max_far_stress(k) = Tmp(i,j).max_far_stress; %#ok<AGROW>
+        max_CMOD(k) = Tmp(i,j).max_CMOD; %#ok<AGROW>
+        k = k+1;
     end
 end
 %find the smallest max. net, far stress, and CMOD.
@@ -89,7 +89,7 @@ far_stress_limit = min(max_far_stress);
 minimum_CMOD = min(max_CMOD);
 maximum_CMOD = max(max_CMOD);
 avg_CMOD = (minimum_CMOD + maximum_CMOD)/2;
-% %calculate the load increments based on 
+% %calculate the load increments based on
 % %the number of load steps and log 10 spacing
 % %use log spacing to get more load interp. at final loads
 % spacing = log10(1:(9/n_steps):10)';
@@ -98,23 +98,23 @@ avg_CMOD = (minimum_CMOD + maximum_CMOD)/2;
 % final_spacing = spacing(2:end); % drop first 0
 %uniform spacing code
 spacer = 1/n_steps;
-final_spacing = [spacer:spacer:1]';
+final_spacing = (spacer:spacer:1)';
 %plot(final_spacing,'rx');
 %ylim([0 1]);
 %net_stress_inc = net_stress_limit*final_spacing;
 %far_stress_inc = far_stress_limit*final_spacing;
 CMOD_inc = avg_CMOD*final_spacing;
 %%
-%code to extrap solutions to CMOD_avg value if max CMOD in solution set 
+%code to extrap solutions to CMOD_avg value if max CMOD in solution set
 %is less than that value
 for i = 1:4
     for j = 1:4
         if Tmp(i,j).max_CMOD < avg_CMOD
             %fit Power law Power2 function to last 5 data points
             xdata = Tmp(i,j).CMOD(end-4:end)';
-            ydata = Tmp(i,j).net_stress(end-4:end)'; 
+            ydata = Tmp(i,j).net_stress(end-4:end)';
             ydata2 = Tmp(i,j).St_far(end-4:end)';
-            %code below uses CF toolbox 
+            %code below uses CF toolbox
             plFit = fit(xdata, ydata,'power2');
             plFit2 = fit(xdata, ydata2,'power2');
             %create 5 points to extend data from end point to avg_CMOD
@@ -126,15 +126,15 @@ for i = 1:4
                 %calculate new net stress point using Power2 fit
                 Tmp(i,j).net_stress(lengthIT + k) = plFit(Tmp(i,j).CMOD(lengthIT + k));
                 Tmp(i,j).St_far(lengthIT + k) = plFit2(Tmp(i,j).CMOD(lengthIT + k));
-%                 %interpolate to calc new Jtotal and Jel values
-                   for l = 1:length(Tmp(i,j).Phi)
+                %                 %interpolate to calc new Jtotal and Jel values
+                for l = 1:length(Tmp(i,j).Phi)
                     X = Tmp(i,j).CMOD(1:lengthIT + k-1);
                     Y = Tmp(i,j).Jtotal_Avg(l,1:lengthIT + k-1);
                     Yel = Tmp(i,j).Jel_EPFM(l,1:lengthIT + k-1);
                     Xi = Tmp(i,j).CMOD(lengthIT + k);
                     Tmp(i,j).Jtotal_Avg(l,lengthIT + k) = interp1(X,Y,Xi,'linear','extrap' );
                     Tmp(i,j).Jel_EPFM(l,lengthIT + k) = interp1(X,Yel,Xi,'linear','extrap' );
-                    end        
+                end
             end
             %add on last point at exactly the avg CMOD value
             lengthIT = length(Tmp(i,j).CMOD);
@@ -142,14 +142,14 @@ for i = 1:4
             Tmp(i,j).net_stress(lengthIT + 1) = plFit(Tmp(i,j).CMOD(lengthIT + 1));
             Tmp(i,j).St_far(lengthIT + 1) = plFit2(Tmp(i,j).CMOD(lengthIT + 1));
             %interpolate to calc new Jtotal and Jel values
-                    for l = 1:length(Tmp(i,j).Phi)
-                    X = Tmp(i,j).CMOD(1:lengthIT);
-                    Y = Tmp(i,j).Jtotal_Avg(l,1:lengthIT);
-                    Yel = Tmp(i,j).Jel_EPFM(l,1:lengthIT);
-                    Xi = Tmp(i,j).CMOD(lengthIT + 1);
-                    Tmp(i,j).Jtotal_Avg(l,lengthIT + 1) = interp1(X,Y,Xi,'linear','extrap' );
-                    Tmp(i,j).Jel_EPFM(l,lengthIT + 1) = interp1(X,Yel,Xi,'linear','extrap' );
-                    end        
+            for l = 1:length(Tmp(i,j).Phi)
+                X = Tmp(i,j).CMOD(1:lengthIT);
+                Y = Tmp(i,j).Jtotal_Avg(l,1:lengthIT);
+                Yel = Tmp(i,j).Jel_EPFM(l,1:lengthIT);
+                Xi = Tmp(i,j).CMOD(lengthIT + 1);
+                Tmp(i,j).Jtotal_Avg(l,lengthIT + 1) = interp1(X,Y,Xi,'linear','extrap' );
+                Tmp(i,j).Jel_EPFM(l,lengthIT + 1) = interp1(X,Yel,Xi,'linear','extrap' );
+            end
         end
     end
 end
@@ -163,32 +163,32 @@ interp_phi = (0:phi_inc:90);
 for i = 1:4
     for j = 1:4
         for k = 1:size(Tmp(i,j).Jtotal_Avg,2)
-        X = Tmp(i,j).Phi;
-        Y = Tmp(i,j).Jtotal_Avg(:,k);
-        Yel = Tmp(i,j).Jel_EPFM(:,k);
-        Xi = interp_phi;
-        Tmp(i,j).Jtotal(:,k) = interp1(X,Y,Xi,'linear','extrap' );
-        Tmp(i,j).Jel(:,k) = interp1(X,Yel,Xi,'linear','extrap' );
-        end        
+            X = Tmp(i,j).Phi;
+            Y = Tmp(i,j).Jtotal_Avg(:,k);
+            Yel = Tmp(i,j).Jel_EPFM(:,k);
+            Xi = interp_phi;
+            Tmp(i,j).Jtotal(:,k) = interp1(X,Y,Xi,'linear','extrap' );
+            Tmp(i,j).Jel(:,k) = interp1(X,Yel,Xi,'linear','extrap' );
+        end
     end
 end
 %Now interpolate results from current CMOD steps to new CMOD step space
 for i = 1:4
     for j = 1:4
         for k = 1:length(CMOD_inc)
-         %net stress corresponding to CMOD increment
-         Y = Tmp(i,j).net_stress;
-         Y2 = Tmp(i,j).St_far;
-         X = Tmp(i,j).CMOD;
-         Xi = CMOD_inc(k); 
-         Tmp(i,j).int_net_stress(k) = interp1(X,Y,Xi,'linear','extrap');
-         Tmp(i,j).int_far_stress(k) = interp1(X,Y2,Xi,'linear','extrap');
-         %calculate reaction force corresponding to net stress increment
-         Tmp(i,j).int_reac_force(k) = Tmp(i,j).int_far_stress(k)*Tmp(i,j).A;
-         Tmp(i,j).int_reac_force_net(k) = Tmp(i,j).int_net_stress(k)*Tmp(i,j).An;
-         Tmp(i,j).CMOD_inc(k) = CMOD_inc(k);
-         %write to int_CMOD variable for old plotting framework
-         Tmp(i,j).int_CMOD(k) = CMOD_inc(k); 
+            %net stress corresponding to CMOD increment
+            Y = Tmp(i,j).net_stress;
+            Y2 = Tmp(i,j).St_far;
+            X = Tmp(i,j).CMOD;
+            Xi = CMOD_inc(k);
+            Tmp(i,j).int_net_stress(k) = interp1(X,Y,Xi,'linear','extrap');
+            Tmp(i,j).int_far_stress(k) = interp1(X,Y2,Xi,'linear','extrap');
+            %calculate reaction force corresponding to net stress increment
+            Tmp(i,j).int_reac_force(k) = Tmp(i,j).int_far_stress(k)*Tmp(i,j).A;
+            Tmp(i,j).int_reac_force_net(k) = Tmp(i,j).int_net_stress(k)*Tmp(i,j).An;
+            Tmp(i,j).CMOD_inc(k) = CMOD_inc(k);
+            %write to int_CMOD variable for old plotting framework
+            Tmp(i,j).int_CMOD(k) = CMOD_inc(k);
         end
         
     end
@@ -205,16 +205,16 @@ end
 for i = 1:4
     for j = 1:4
         for k = 1:length(CMOD_inc)
-         X = interp_phi';
-         Xi = interp_phi';
-         Y = [0.0, Tmp(i,j).CMOD];
-         Z = [zeros(size(Tmp(i,j).Jtotal,1),1), Tmp(i,j).Jtotal];
-         Zel = [zeros(size(Tmp(i,j).Jel,1),1), Tmp(i,j).Jel];
-         Z = Z';
-         Zel = Zel';
-         Yi = CMOD_inc(k);
-         Tmp(i,j).int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear');
-         Tmp(i,j).int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear');
+            X = interp_phi';
+            Xi = interp_phi';
+            Y = [0.0, Tmp(i,j).CMOD];
+            Z = [zeros(size(Tmp(i,j).Jtotal,1),1), Tmp(i,j).Jtotal];
+            Zel = [zeros(size(Tmp(i,j).Jel,1),1), Tmp(i,j).Jel];
+            Z = Z';
+            Zel = Zel';
+            Yi = CMOD_inc(k);
+            Tmp(i,j).int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear');
+            Tmp(i,j).int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear');
         end
     end
 end
@@ -232,37 +232,37 @@ end
 %-----------perform a/c interpolation--------------------------
 %interpolate to get the Jtotal and Jelastic solutions
 for i = 1:4
-        for k = 1:length(CMOD_inc)
-         X = ac_bounds';
-         Xi = ac_pick;
-         Y = interp_phi;
-         Z = [Tmp(i,1).int_Jtotal(:,k) Tmp(i,2).int_Jtotal(:,k)];
-         Z2 = [Tmp(i,3).int_Jtotal(:,k) Tmp(i,4).int_Jtotal(:,k)];
-         Zel = [Tmp(i,1).int_Jel(:,k) Tmp(i,2).int_Jel(:,k)];
-         Z2el = [Tmp(i,3).int_Jel(:,k) Tmp(i,4).int_Jel(:,k)];
-         Yi = interp_phi;
-         Tmp2(i,1).int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear');
-         Tmp2(i,2).int_Jtotal(:,k) = interp2(X,Y,Z2,Xi,Yi,'linear');
-         Tmp2(i,1).int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear');
-         Tmp2(i,2).int_Jel(:,k) = interp2(X,Y,Z2el,Xi,Yi,'linear');
-        end    
+    for k = 1:length(CMOD_inc)
+        X = ac_bounds';
+        Xi = ac_pick;
+        Y = interp_phi;
+        Z = [Tmp(i,1).int_Jtotal(:,k) Tmp(i,2).int_Jtotal(:,k)];
+        Z2 = [Tmp(i,3).int_Jtotal(:,k) Tmp(i,4).int_Jtotal(:,k)];
+        Zel = [Tmp(i,1).int_Jel(:,k) Tmp(i,2).int_Jel(:,k)];
+        Z2el = [Tmp(i,3).int_Jel(:,k) Tmp(i,4).int_Jel(:,k)];
+        Yi = interp_phi;
+        Tmp2(i,1).int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear'); %#ok<AGROW>
+        Tmp2(i,2).int_Jtotal(:,k) = interp2(X,Y,Z2,Xi,Yi,'linear'); %#ok<AGROW>
+        Tmp2(i,1).int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear'); %#ok<AGROW>
+        Tmp2(i,2).int_Jel(:,k) = interp2(X,Y,Z2el,Xi,Yi,'linear'); %#ok<AGROW>
+    end
 end
 %interpolate to get net and far stress solution
 for i = 1:4
-         X = ac_bounds';
-         Xi = ac_pick;       
-         Y = [Tmp(i,1).int_net_stress; Tmp(i,2).int_net_stress];
-         Y2 = [Tmp(i,3).int_net_stress; Tmp(i,4).int_net_stress];
-         Yb = [Tmp(i,1).int_far_stress; Tmp(i,2).int_far_stress];
-         Y2b = [Tmp(i,3).int_far_stress; Tmp(i,4).int_far_stress];
-        for k = 1:length(CMOD_inc)
-         Tmp2(i,1).int_net_stress(k) = interp1(X,Y(:,k),Xi,'linear');
-         Tmp2(i,2).int_net_stress(k) = interp1(X,Y2(:,k),Xi,'linear');
-         Tmp2(i,1).int_far_stress(k) = interp1(X,Yb(:,k),Xi,'linear');
-         Tmp2(i,2).int_far_stress(k) = interp1(X,Y2b(:,k),Xi,'linear');
-         Tmp2(i,1).int_CMOD(k) = CMOD_inc(k);
-         Tmp2(i,2).int_CMOD(k) = CMOD_inc(k);
-        end    
+    X = ac_bounds';
+    Xi = ac_pick;
+    Y = [Tmp(i,1).int_net_stress; Tmp(i,2).int_net_stress];
+    Y2 = [Tmp(i,3).int_net_stress; Tmp(i,4).int_net_stress];
+    Yb = [Tmp(i,1).int_far_stress; Tmp(i,2).int_far_stress];
+    Y2b = [Tmp(i,3).int_far_stress; Tmp(i,4).int_far_stress];
+    for k = 1:length(CMOD_inc)
+        Tmp2(i,1).int_net_stress(k) = interp1(X,Y(:,k),Xi,'linear');
+        Tmp2(i,2).int_net_stress(k) = interp1(X,Y2(:,k),Xi,'linear');
+        Tmp2(i,1).int_far_stress(k) = interp1(X,Yb(:,k),Xi,'linear');
+        Tmp2(i,2).int_far_stress(k) = interp1(X,Y2b(:,k),Xi,'linear');
+        Tmp2(i,1).int_CMOD(k) = CMOD_inc(k);
+        Tmp2(i,2).int_CMOD(k) = CMOD_inc(k);
+    end
 end
 %%
 %-----------------------------------------------------------
@@ -271,28 +271,28 @@ end
 %reduces the number of solutions to 4 with consistent geometry (a/c, a/B)
 %interpolate to get the Jtotal and Jelastic solutions
 for i = 1:4
-        for k = 1:length(CMOD_inc)
-         X = aB_bounds';
-         Xi = aB_pick;
-         Y = interp_phi;
-         Z = [Tmp2(i,1).int_Jtotal(:,k) Tmp2(i,2).int_Jtotal(:,k)];
-         Zel = [Tmp2(i,1).int_Jel(:,k) Tmp2(i,2).int_Jel(:,k)];
-         Yi = interp_phi;
-         Tmp3(i,1).int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear');
-         Tmp3(i,1).int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear');
-        end    
+    for k = 1:length(CMOD_inc)
+        X = aB_bounds';
+        Xi = aB_pick;
+        Y = interp_phi;
+        Z = [Tmp2(i,1).int_Jtotal(:,k) Tmp2(i,2).int_Jtotal(:,k)];
+        Zel = [Tmp2(i,1).int_Jel(:,k) Tmp2(i,2).int_Jel(:,k)];
+        Yi = interp_phi;
+        Tmp3(i,1).int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear'); %#ok<AGROW>
+        Tmp3(i,1).int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear'); %#ok<AGROW>
+    end
 end
 %interpolate to get net stress solution
 for i = 1:4
-         X = aB_bounds';
-         Xi = aB_pick;       
-         Y = [Tmp2(i,1).int_net_stress; Tmp2(i,2).int_net_stress];
-         Yb = [Tmp2(i,1).int_far_stress; Tmp2(i,2).int_far_stress];
-        for k = 1:length(CMOD_inc)
-         Tmp3(i,1).int_net_stress(k) = interp1(X,Y(:,k),Xi,'linear');
-         Tmp3(i,1).int_far_stress(k) = interp1(X,Yb(:,k),Xi,'linear');
-         Tmp3(i,1).int_CMOD(k) = CMOD_inc(k);
-        end    
+    X = aB_bounds';
+    Xi = aB_pick;
+    Y = [Tmp2(i,1).int_net_stress; Tmp2(i,2).int_net_stress];
+    Yb = [Tmp2(i,1).int_far_stress; Tmp2(i,2).int_far_stress];
+    for k = 1:length(CMOD_inc)
+        Tmp3(i,1).int_net_stress(k) = interp1(X,Y(:,k),Xi,'linear');
+        Tmp3(i,1).int_far_stress(k) = interp1(X,Yb(:,k),Xi,'linear');
+        Tmp3(i,1).int_CMOD(k) = CMOD_inc(k);
+    end
 end
 %%
 %-----------------------------------------------------------
@@ -302,37 +302,37 @@ end
 %and consistent hardening "n"
 %interpolate to get the Jtotal and Jelastic solutions
 
-        for k = 1:length(CMOD_inc)
-         X = n_bounds';
-         Xi = n_pick;
-         Y = interp_phi;
-         Z = [Tmp3(1,1).int_Jtotal(:,k) Tmp3(3,1).int_Jtotal(:,k)];
-         Z2 = [Tmp3(2,1).int_Jtotal(:,k) Tmp3(4,1).int_Jtotal(:,k)];
-         Zel = [Tmp3(1,1).int_Jel(:,k) Tmp3(3,1).int_Jel(:,k)];
-         Z2el = [Tmp3(2,1).int_Jel(:,k) Tmp3(4,1).int_Jel(:,k)];
-         Yi = interp_phi;
-         Tmp4(1,1).int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear');
-         Tmp4(2,1).int_Jtotal(:,k) = interp2(X,Y,Z2,Xi,Yi,'linear');
-         Tmp4(1,1).int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear');
-         Tmp4(2,1).int_Jel(:,k) = interp2(X,Y,Z2el,Xi,Yi,'linear');
-        end    
+for k = 1:length(CMOD_inc)
+    X = n_bounds';
+    Xi = n_pick;
+    Y = interp_phi;
+    Z = [Tmp3(1,1).int_Jtotal(:,k) Tmp3(3,1).int_Jtotal(:,k)];
+    Z2 = [Tmp3(2,1).int_Jtotal(:,k) Tmp3(4,1).int_Jtotal(:,k)];
+    Zel = [Tmp3(1,1).int_Jel(:,k) Tmp3(3,1).int_Jel(:,k)];
+    Z2el = [Tmp3(2,1).int_Jel(:,k) Tmp3(4,1).int_Jel(:,k)];
+    Yi = interp_phi;
+    Tmp4(1,1).int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear');
+    Tmp4(2,1).int_Jtotal(:,k) = interp2(X,Y,Z2,Xi,Yi,'linear');
+    Tmp4(1,1).int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear');
+    Tmp4(2,1).int_Jel(:,k) = interp2(X,Y,Z2el,Xi,Yi,'linear');
+end
 
 %interpolate to get net stress solution
 
-        X = n_bounds';
-         Xi = n_pick;       
-         Y = [Tmp3(1,1).int_net_stress; Tmp3(3,1).int_net_stress];
-         Y2 = [Tmp3(2,1).int_net_stress; Tmp3(4,1).int_net_stress];
-         Yb = [Tmp3(1,1).int_far_stress; Tmp3(3,1).int_far_stress];
-         Y2b = [Tmp3(2,1).int_far_stress; Tmp3(4,1).int_far_stress];
-        for k = 1:length(CMOD_inc)
-         Tmp4(1,1).int_net_stress(k) = interp1(X,Y(:,k),Xi,'linear');
-         Tmp4(2,1).int_net_stress(k) = interp1(X,Y2(:,k),Xi,'linear');
-         Tmp4(1,1).int_far_stress(k) = interp1(X,Yb(:,k),Xi,'linear');
-         Tmp4(2,1).int_far_stress(k) = interp1(X,Y2b(:,k),Xi,'linear');
-         Tmp4(1,1).int_CMOD(k) = CMOD_inc(k);
-         Tmp4(2,1).int_CMOD(k) = CMOD_inc(k);
-        end
+X = n_bounds';
+Xi = n_pick;
+Y = [Tmp3(1,1).int_net_stress; Tmp3(3,1).int_net_stress];
+Y2 = [Tmp3(2,1).int_net_stress; Tmp3(4,1).int_net_stress];
+Yb = [Tmp3(1,1).int_far_stress; Tmp3(3,1).int_far_stress];
+Y2b = [Tmp3(2,1).int_far_stress; Tmp3(4,1).int_far_stress];
+for k = 1:length(CMOD_inc)
+    Tmp4(1,1).int_net_stress(k) = interp1(X,Y(:,k),Xi,'linear');
+    Tmp4(2,1).int_net_stress(k) = interp1(X,Y2(:,k),Xi,'linear');
+    Tmp4(1,1).int_far_stress(k) = interp1(X,Yb(:,k),Xi,'linear');
+    Tmp4(2,1).int_far_stress(k) = interp1(X,Y2b(:,k),Xi,'linear');
+    Tmp4(1,1).int_CMOD(k) = CMOD_inc(k);
+    Tmp4(2,1).int_CMOD(k) = CMOD_inc(k);
+end
 %%
 %-----------------------------------------------------------
 %-----------------------------------------------------------
@@ -341,36 +341,36 @@ end
 %and consistent hardening "n", and E/Sys
 %interpolate to get the Jtotal and Jelastic solutions
 
-        for k = 1:length(CMOD_inc)
-         X = E_bounds';
-         X = log10(X);
-         Xi = log10(E_pick);
-         Y = interp_phi;
-         %perform interp in log10 space
-         Z = [(Tmp4(1,1).int_Jtotal(:,k)) (Tmp4(2,1).int_Jtotal(:,k))];
-         Zel = [(Tmp4(1,1).int_Jel(:,k)) (Tmp4(2,1).int_Jel(:,k))];
-         Yi = interp_phi;
-         Final.int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear');
-         Final.int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear');
-        end    
+for k = 1:length(CMOD_inc)
+    X = E_bounds';
+    X = log10(X);
+    Xi = log10(E_pick);
+    Y = interp_phi;
+    %perform interp in log10 space
+    Z = [(Tmp4(1,1).int_Jtotal(:,k)) (Tmp4(2,1).int_Jtotal(:,k))];
+    Zel = [(Tmp4(1,1).int_Jel(:,k)) (Tmp4(2,1).int_Jel(:,k))];
+    Yi = interp_phi;
+    Final.int_Jtotal(:,k) = interp2(X,Y,Z,Xi,Yi,'linear');
+    Final.int_Jel(:,k) = interp2(X,Y,Zel,Xi,Yi,'linear');
+end
 
 %interpolate to get net stress solution
 
-        X = E_bounds';
-        X = log10(X);
-         Xi = log10(E_pick);       
-         Y = [(Tmp4(1,1).int_net_stress); (Tmp4(2,1).int_net_stress)];
-         Yb = [(Tmp4(1,1).int_far_stress); (Tmp4(2,1).int_far_stress)];
-        for k = 1:length(CMOD_inc)
-         Final.int_net_stress(k) = interp1(X,Y(:,k),Xi,'linear');
-         Final.int_far_stress(k) = interp1(X,Yb(:,k),Xi,'linear');
-        end    
+X = E_bounds';
+X = log10(X);
+Xi = log10(E_pick);
+Y = [(Tmp4(1,1).int_net_stress); (Tmp4(2,1).int_net_stress)];
+Yb = [(Tmp4(1,1).int_far_stress); (Tmp4(2,1).int_far_stress)];
+for k = 1:length(CMOD_inc)
+    Final.int_net_stress(k) = interp1(X,Y(:,k),Xi,'linear');
+    Final.int_far_stress(k) = interp1(X,Yb(:,k),Xi,'linear');
+end
 
 %-----------------------------------------------------------
 %-----------------------------------------------------------
 %write values to "final" structure for output from function
 Final.n_steps = n_steps;
-Final.n_phi = n_phi; 
+Final.n_phi = n_phi;
 Final.ac_index = ac_index;
 Final.aB_index = aB_index;
 Final.n_index = n_index;
@@ -395,15 +395,10 @@ Final.interp_phi = interp_phi;
 k = 1;
 for i = 1:4
     for j = 1:4
-A_ratio(k) = Tmp(i,j).A_ratio; 
-     k = k+1;
+        A_ratio(k) = Tmp(i,j).A_ratio; %#ok<AGROW>
+        k = k+1;
     end
 end
 Final.A_ratio = mean(A_ratio);
 %----------------------------------------------------------
 %clearvars -except 'input' 'result'
-
-
-
-
-

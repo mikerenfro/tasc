@@ -84,7 +84,7 @@ if lic_status ~= 2
     if nosa == 1
         nosa_lic_file = fopen('TASC_lic.txt','w');
         fprintf(nosa_lic_file,'%s\t','File used to demonstrate that the NASA Open Source Agreement has been accepted.');
-        nosa_lic_file = fclose(nosa_lic_file);
+        fclose(nosa_lic_file);
     end
     %if the user does not choose Yes, then close TASC GUI
     if nosa ~= 1
@@ -282,7 +282,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -332,7 +332,7 @@ if strmatch(choice, 'yes')
 %save interpolated results in mat file
 %only save result variable to save file space (gets rid of interpolation
 %solution space)
-save_result = handles.result;
+save_result = handles.result; %#ok<NASGU>
 save (InterpFileName, 'save_result' );
 create_summary_table(handles.result, handles.interp)
 %save (InterpFileName);
@@ -463,7 +463,7 @@ if handles.interp.ErrorFound == 0
     [handles.result.fea]= interp_solution_fea_int(handles.interp);
     if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -516,7 +516,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -585,7 +585,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -654,7 +654,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -723,7 +723,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -840,7 +840,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -917,7 +917,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -988,7 +988,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -1646,7 +1646,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 %get force and CMOD corresponding to choice of crit J and Phi
 [handles.result]= pretest_predict(handles.result);
-if handles.result.predict_flag == 1;
+if handles.result.predict_flag == 1
     %perform EPFM calculation
     [handles]= EPFM_calcs_standalone(handles);
     %assignin('base', 'handles_w_interp', handles);
@@ -1699,7 +1699,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 %get force and CMOD corresponding to choice of crit J and Phi
 [handles.result]= pretest_predict(handles.result);
-if handles.result.predict_flag == 1;
+if handles.result.predict_flag == 1
     %perform EPFM calculation
     [handles]= EPFM_calcs_standalone(handles);
     %assignin('base', 'handles_w_interp', handles);
@@ -1900,7 +1900,7 @@ if handles.interp.ErrorFound == 0
     [handles.result.fea]= interp_solution_fea_int(handles.interp);
     if handles.interp.cb_test_predict == 1
         [handles.result]= pretest_predict(handles.result);
-        if handles.result.predict_flag == 1;
+        if handles.result.predict_flag == 1
             %perform EPFM calculation
             [handles]= EPFM_calcs_standalone(handles);
             %assignin('base', 'handles_w_interp', handles);
@@ -1974,7 +1974,7 @@ if handles.interp.ErrorFound == 0
     [handles.result.fea]= interp_solution_fea_int(handles.interp);
     if handles.interp.cb_test_predict == 1
         [handles.result]= pretest_predict(handles.result);
-        if handles.result.predict_flag == 1;
+        if handles.result.predict_flag == 1
             %perform EPFM calculation
             [handles]= EPFM_calcs_standalone(handles);
             %assignin('base', 'handles_w_interp', handles);
@@ -2230,7 +2230,7 @@ handles.result.fea = [];
 [handles.result.fea]= interp_solution_fea_int(handles.interp);
 if handles.interp.cb_test_predict == 1
     [handles.result]= pretest_predict(handles.result);
-    if handles.result.predict_flag == 1;
+    if handles.result.predict_flag == 1
         %perform EPFM calculation
         [handles]= EPFM_calcs_standalone(handles);
         %assignin('base', 'handles_w_interp', handles);
@@ -2338,7 +2338,7 @@ function menu_help_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSD>
 
 
 % --------------------------------------------------------------------
-function menu_show_SC_image_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSD>
+function menu_show_SC_image_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSL>
 % hObject    handle to menu_show_SC_image (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -2351,7 +2351,7 @@ imshow('SC_picture.jpg','InitialMagnification',35) %uses image toolbox
 guidata(hObject, handles);
 
 % --------------------------------------------------------------------
-function menu_user_manual_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSD>
+function menu_user_manual_Callback(hObject, eventdata, handles) %#ok<DEFNU,INUSL>
 % hObject    handle to menu_user_manual (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

@@ -2503,7 +2503,7 @@ end
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function et_i_Sin_CreateFcn(hObject, eventdata, handles) %#ok<DEFNU>
+function et_i_Sin_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_Sin (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -2522,7 +2522,7 @@ handles.interp.S_out = str2double(get(hObject,'String'));
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function et_i_Sout_CreateFcn(hObject, eventdata, handles) %#ok<DEFNU>
+function et_i_Sout_CreateFcn(hObject, eventdata, handles) %#ok<INUSD,DEFNU>
 % hObject    handle to et_i_Sout (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
